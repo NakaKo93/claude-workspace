@@ -7,7 +7,7 @@ allowed-tools: Bash(git:*)
 
 # Git Branch
 
-To create and clean up Git branches following the project's conventional naming format, with confirmation before executing.
+To create and clean up Git branches following the project's conventional naming format. Branch creation executes immediately after presenting the plan — no confirmation prompt. Branch deletion always requires explicit confirmation.
 
 For naming format rules (type, scope, slug, examples, lifecycle), see [`references/naming-rules.md`](references/naming-rules.md).
 
@@ -73,15 +73,15 @@ Include a brief explanation of why this type and scope were chosen.
 
 ---
 
-### Step 3: Confirm and Execute (Create)
+### Step 3: Execute (Create)
 
-Before presenting the confirmation, check for uncommitted changes:
+Before executing, check for uncommitted changes:
 
 ```bash
 git status --porcelain
 ```
 
-**If uncommitted changes exist**, include them in the confirmation screen:
+**If uncommitted changes exist**, present the plan then execute immediately:
 
 ```
 Base:     <current-branch>
@@ -92,22 +92,14 @@ Plan:
   1. git stash -u        (save all changes including untracked files)
   2. git checkout -b <branch-name>
   3. git stash apply     (re-apply changes on the new branch)
-
-Proceed? [yes / edit / cancel]
 ```
 
-**If no uncommitted changes**, show the simpler confirmation:
+**If no uncommitted changes**, present the plan then execute immediately:
 
 ```
 Base:   <current-branch>
 New:    <proposed-branch-name>
-
-Create this branch? [yes / edit / cancel]
 ```
-
-- **yes**: execute the plan (with or without stash steps as appropriate) and report the result
-- **edit**: ask "Which part to change? [type / scope / slug]", apply the change, re-present. After 3 rounds without confirmation, suggest cancelling.
-- **cancel**: abort without any git commands
 
 **Execution order when stashing:**
 
