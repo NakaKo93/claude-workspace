@@ -1,0 +1,123 @@
+---
+name: create-skill
+description: Creates a new Claude Code skill from scratch, guiding through requirements, resource planning, initialization, and content writing. This skill should be used when users want to create, build, or develop a new skill — trigger phrases include "スキルを作って", "create a skill", "build a skill", "make a skill", "新しいスキルを作りたい".
+disable-model-invocation: false
+allowed-tools: Bash, Read, Write, Edit, Glob
+---
+
+# Create Skill
+
+Create a new Claude Code skill by understanding requirements, planning resources, initializing the skill directory, and writing effective content.
+
+For skill anatomy, frontmatter fields, bundled resources, and Progressive Disclosure architecture, see [references/about-skills.md](references/about-skills.md).
+For skill design rules (single purpose, module limits, split/orchestrator decisions, naming), see [references/design-rules.md](references/design-rules.md).
+
+## Example Usage
+
+- "Create a new skill that summarizes GitHub PRs"
+- "Build a skill for converting PDF files"
+- "スキルを作って"
+- "新しいスキルを作りたい"
+- "Make a skill for querying our BigQuery database"
+
+---
+
+## Steps
+
+### Step 1: Understand the Skill with Concrete Examples
+
+Ask the user for concrete examples of how the skill will be used. Key questions:
+
+- "What functionality should the skill support?"
+- "What would a user say to trigger this skill?"
+- "Can you give 2–3 examples of actual use?"
+
+Avoid asking too many questions at once. Start with the most important and follow up as needed. Conclude when the purpose and trigger phrases are clear.
+
+### Step 2: Plan Skill Architecture and Reusable Contents
+
+**Architecture check — resolve before building:**
+
+| Question | Yes → | No → |
+|---|---|---|
+| Goal expressible in **one sentence**? | Proceed | Split into focused sub-skills |
+| Planned workflow has **≤3 top-level steps**? | Proceed | Evaluate split (see below) |
+| Sub-skills always run in fixed sequence? | Consider orchestrator | Use linear chain or call independently |
+
+**If splitting is needed:** define each sub-skill independently first, then decide if an orchestrator skill is needed. Read [references/design-rules.md](references/design-rules.md) for the full split/orchestrator decision tree and orchestrator template.
+
+**Reusable resources:** for each concrete example, identify resources that eliminate repetitive work:
+
+| Repeated work | Resource to create |
+|---|---|
+| Same code generated every run | `scripts/<name>.py` |
+| Same template used every run | `assets/<template>` |
+| Same reference looked up every run | `references/<topic>.md` |
+
+Produce a list of resources to bundle before proceeding.
+
+### Step 3: Initialize the Skill
+
+Run the init script to create the skill directory:
+
+```bash
+SKILL_SCRIPTS=~/.claude/skills/create-skill/scripts
+python $SKILL_SCRIPTS/init_skill.py <skill-name> --path ~/.claude/skills
+```
+
+**Naming:** Use `verb-noun` format (e.g., `create-skill`, `validate-skill`, `reflect`). The name should make the trigger obvious. Hyphen-case, max 64 characters, no leading/trailing/consecutive hyphens.
+
+**Skill placement:**
+
+| Location | Scope |
+|---|---|
+| `~/.claude/skills/<skill-name>/` | Personal (all projects) |
+| `.claude/skills/<skill-name>/` | Project-scoped |
+
+Skip this step only if the skill directory already exists.
+
+### Step 4: Edit the Skill
+
+Start with reusable resources (`scripts/`, `references/`, `assets/`), then write SKILL.md.
+
+**Language:** Write all skill content in English.
+
+**Apply Progressive Disclosure** — keep SKILL.md lean; move supporting detail to `references/`:
+
+| Content type | Location |
+|---|---|
+| Overview, core workflow, key rules | SKILL.md body |
+| Reference tables, large examples | `references/<topic>.md` |
+| Repeated code / deterministic logic | `scripts/<name>.py` |
+| Templates, binary assets | `assets/` |
+
+**SKILL.md required sections:** Overview (recommended), Example Usage (≥2, required), Steps (required), Error Handling (required), Limitations (recommended).
+
+**`description` field:** Write in third person, ≤2 sentences. Include explicit trigger phrases.
+
+**`disable-model-invocation`:** Always write `false` unless the user explicitly instructs otherwise.
+
+Delete any unused example files (`scripts/example.py`, `references/api_reference.md`, `assets/example_asset.txt`) after editing.
+
+### Step 5: Validate and Review
+
+Invoke `validate-skill` to run structural checks and self-review:
+
+```
+/validate-skill <path/to/skill>
+```
+
+---
+
+## Error Handling
+
+- **No context provided**: Ask clarifying questions in Step 1. Do not proceed to Step 3 without a clear purpose.
+- **`init_skill.py` fails**: Verify the target `--path` exists and the skill name follows hyphen-case conventions.
+- **Packaging requested**: Run `scripts/package_skill.py <path/to/skill>` — only when the user explicitly requests a zip file.
+- **Out-of-scope request** (installing, enabling, disabling, or deleting skills): Explain scope and direct to Claude Code documentation.
+
+## Limitations
+
+- Does not handle skill installation, activation, deactivation, or deletion.
+- Cannot manage versioning or dependencies between skills.
+- Does not validate semantic correctness — structural checks are handled by `validate-skill`.
