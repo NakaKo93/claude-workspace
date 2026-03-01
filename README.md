@@ -59,7 +59,3 @@ Prettier は Claude Code の PostToolUse Hook として設定されており、
 ファイル編集後に自動でフォーマットが適用されます。
 手動で実行する必要はありません。
 
-## ルール
-
-- **Skills ファイルは英語で記述**（SKILL.md, references/, scripts/, assets/）
-- **応答言語はユーザーの言語に合わせる**（日本語で書けば日本語で返す）
