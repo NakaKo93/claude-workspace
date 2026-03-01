@@ -75,9 +75,6 @@
       "Bash(git checkout:*)",
       "Bash(git stash:*)",
 
-      "mcp__serena__find_file",
-      "mcp__serena__list_dir",
-
       "Skill(create-skill)",
       "Skill(validate-skill)",
       "Skill(git-branch)",
