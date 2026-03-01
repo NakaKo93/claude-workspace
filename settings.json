@@ -84,6 +84,7 @@
       "Skill(validate-task-skill)",
       "Skill(git-branch)",
       "Skill(git-commit)",
+      "Skill(sync-branch)",
       "Skill(reflect)",
       "Skill(gh-pr)",
       "Skill(plain-doc)",
