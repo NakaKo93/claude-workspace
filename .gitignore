@@ -24,7 +24,8 @@ node_modules/
 plugins/
 
 # Docs (managed separately or not versioned)
-docs/
+docs/*
+!docs/guides
 
 # Internal Claude Code settings
 .claude/
