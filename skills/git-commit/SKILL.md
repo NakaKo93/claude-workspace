@@ -1,8 +1,8 @@
 ---
 name: git-commit
 description: Creates git commits following a conventional commit format (type(scope): subject). This skill should be used when users want to commit changes, create a commit message, stage and commit files, or save work to git history. Includes safety checks to prevent direct commits to main/master and requires confirmation before executing.
-disable-model-invocation: true
-allowed-tools: Bash(git:*)
+disable-model-invocation: false
+allowed-tools: Bash(git:*), Skill(git-branch)
 ---
 
 # Git Commit
@@ -29,6 +29,8 @@ Typical user messages that trigger this skill:
 
 ## Workflow
 
+This workflow uses 4 steps because each represents a distinct safety gate: (1) branch protection, (2) change inspection, (3) user confirmation, (4) execution. Collapsing any two would bypass a safety check, so the 4-step structure is intentional and not a candidate for splitting.
+
 Execute the following steps in order.
 
 ### Step 1: Branch Safety Check
@@ -51,9 +53,13 @@ If the project uses additional protected branches (e.g. `develop`, `staging`, `r
 
 - STOP immediately. Do not proceed with the commit.
 - Inform the user: "Direct commits to `<branch>` are not allowed."
-- Offer one of the following options:
-  1. Create a new branch and switch to it: `git checkout -b <branch-name>`
-  2. Cancel the operation
+- Invoke the `git-branch` skill to create a new branch:
+  ```
+  Skill(git-branch)
+  ```
+  The `git-branch` skill will guide the user through naming and creating a branch.
+- Once the `git-branch` skill completes and the user is on a new branch, **resume from Step 2** automatically.
+- If the user cancels branch creation, abort the commit operation entirely.
 
 Do not continue to Step 2 until the user is on a non-protected branch.
 
@@ -182,7 +188,7 @@ Obtain each hash from the `git commit` output (e.g. `[branch abc1234] ...`) rath
 
 ## Error Handling
 
-- **On `main` or `master`**: STOP immediately — do not proceed with the commit. Inform the user and offer to create a feature branch or cancel.
+- **On `main` or `master`**: STOP immediately — do not proceed with the commit. Invoke `Skill(git-branch)` to create a new branch. Resume from Step 2 after the user switches to the new branch. If the user cancels, abort entirely.
 - **Nothing to commit** (`working tree clean`): STOP and inform the user. Do not proceed.
 - **Nothing staged**: Ask the user whether to stage all changes (`git add -A`) or specific files. Wait for their decision before proceeding.
 - **Pre-commit hook failure**: Inform the user which hook failed. Offer two options: (a) fix the reported errors and retry, or (b) skip hooks with `--no-verify` (warn that this bypasses quality checks). Do not retry automatically.
