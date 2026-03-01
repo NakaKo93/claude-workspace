@@ -2,7 +2,7 @@
 name: git-commit
 description: Creates git commits following a conventional commit format (type(scope): subject). This skill should be used when users want to commit changes, create a commit message, stage and commit files, or save work to git history. Includes safety checks to prevent direct commits to main/master.
 disable-model-invocation: false
-allowed-tools: Bash(git:*), Skill(git-branch)
+allowed-tools: Bash(git:*), Skill(git-branch), Skill(sync-branch)
 ---
 
 # Git Commit
@@ -187,6 +187,12 @@ Branch: <branch>
 ```
 
 Obtain each hash from the `git commit` output (e.g. `[branch abc1234] ...`) rather than running a separate `git log` command.
+
+After reporting the result, invoke the `sync-branch` skill to bring the work branch up to date with main:
+
+```
+Skill(sync-branch)
+```
 
 ---
 
