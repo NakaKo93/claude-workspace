@@ -117,7 +117,8 @@ Written to `<artifacts_dir>/fixes.json` after analysis.
 | `prompt_change` | Updating SKILL.md body, CLAUDE.md, or agent system prompt |
 | `code_change` | Modifying a script file |
 | `config_change` | Changing settings.json, hooks config, or permissions |
-| `behavior_rule` | Adding a new operational rule (no file change required) |
+| `behavior_rule` | Adding a rule specific to the ~/.claude workspace (CLAUDE.md + MEMORY.md). Do NOT use for cross-project rules — those belong in a knowledge skill. |
+| `knowledge_skill_update` | Appending a new rule or item to a knowledge skill's reference file — use when the insight is a recurring behavioral pattern that belongs in a knowledge skill's permanent reference content (e.g., a new stop-and-confirm trigger, a new anti-pattern, a new scope boundary rule) |
 
 ---
 

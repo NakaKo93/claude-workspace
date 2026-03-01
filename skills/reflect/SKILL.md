@@ -53,11 +53,12 @@ find "$PROJ_PATH" -name "*.jsonl" 2>/dev/null | sort
 
 If the directory does not exist, list `~/.claude/projects/` to confirm the expected name, inform the user, and stop. If no `.jsonl` files are found inside the directory, inform the user and stop.
 
-From the results, identify the **most recent session directory** (latest modification time) and collect:
-- Main session log: `<sessionId>/<sessionId>.jsonl`
-- Subagent logs: `<sessionId>/subagents/agent-*.jsonl`
+Collect **all** JSONL files found across all session directories. Files that have already been reflected will be skipped automatically in Step 2 (status: `"skip"`).
 
-Process all collected files.
+**Triage for large session counts**: After running Step 2 for all files, check how many returned `"ok"`. If more than 5:
+1. Read each `<artifacts_dir>/reflection_input.json` and check `events_count`.
+2. Sessions with ≤ 2 events are stubs with no meaningful content — skip them entirely. **Do not write a `fixes.json` or `index.jsonl` entry for stubs.** They will remain unregistered and can be re-evaluated in future runs.
+3. Sort the remaining sessions by `events_count` descending and process the **top 5** in this run. Leave the rest unreflected (no index entry) for a subsequent session.
 
 ### Step 2: Run Extraction Script for Each File
 
@@ -91,6 +92,23 @@ Use judgment to classify each problem, guided by the classification tables below
 
 **Rule generality:** When writing `proposed_fix` rules, prefer **general principles** over situation-specific ones. Ask: "Would this rule apply only to this exact scenario, or would it prevent a whole class of similar mistakes?" A rule that says "always clarify ambiguous requests before implementing" is reusable; one that says "ask what notification method the user prefers" is not. Overly specific rules consume context budget without adding value.
 
+**Knowledge Skill routing — decision order:**
+
+Step A: Is this rule specific to the ~/.claude workspace only?
+- YES (e.g., skill directory conventions, workspace-specific workflow rules)
+  → use `behavior_rule` → CLAUDE.md (workspace-scoped, intentional)
+- NO (e.g., tool usage, coding patterns, implementation behavior)
+  → continue to Step B
+
+Step B: Does an existing knowledge skill cover this domain?
+- Scope/confirmation/clarification behavior → `clarification-rules/references/scope-and-confirmation-rules.md`
+- Tool execution / implementation behavior → `implementation-conventions/references/rules.md`
+- No matching skill exists → use `knowledge_skill_update` targeting `implementation-conventions/references/rules.md` as a catch-all
+→ use `knowledge_skill_update`
+
+Key principle: `behavior_rule` is for workspace-specific rules only.
+Cross-project behavioral rules must always go to a knowledge skill.
+
 Assign each problem a `target.kind` using this table:
 
 | kind | Assign when |
@@ -111,10 +129,17 @@ Assign priority:
 
 For each task, provide `evidence` with the exact `event_index`, `ts`, and a direct `quote` from the log. Keep `proposed_fix.steps` concrete and actionable.
 
-5. Write a one-line entry to `docs/tmp/reflection/reflection_history/index.jsonl` (create file if absent):
+5. **Only after completing item 3 (actual analysis)**, write a one-line entry to `docs/tmp/reflection/reflection_history/index.jsonl` (create file if absent). **Never write an index entry for sessions that were triaged out, skipped due to stub size, or volume-limited** — doing so permanently blocks future analysis of those sessions.
 
 ```json
 {"ts": "<ISO8601>", "source_log": "<path>", "fingerprint": "<sha256>", "status": "done", "artifacts_dir": "<dir>", "tasks_count": <n>, "p0_count": <n>}
+```
+
+**Critical — Windows path escaping**: Copy the `source_log` and `fingerprint` values **verbatim from the script's stdout JSON output** — do not manually retype the Windows path. The script emits correctly double-escaped backslashes (`C:\\Users\\...`) required for valid JSON. Manually typed single backslashes (`C:\Users\...`) produce invalid JSON that silently breaks the deduplication check on every subsequent run.
+
+Correct example:
+```json
+{"ts": "2026-03-01T16:00:00Z", "source_log": "C:\\Users\\nakakou\\.claude\\projects\\...\\session.jsonl", "fingerprint": "abc123...", "status": "done", "artifacts_dir": "docs/tmp/reflection/artifacts/session.jsonl__abc123", "tasks_count": 1, "p0_count": 0}
 ```
 
 ### Step 4: Report to User
@@ -153,6 +178,7 @@ Read `<artifacts_dir>/fixes.json` and apply each task according to its `proposed
 | `prompt_change` | File specified in `proposed_fix.location` | Edit the SKILL.md body, agent file, or CLAUDE.md section named in the task |
 | `code_change` | Script file specified in `proposed_fix.location` | Edit or rewrite the relevant function/section |
 | `config_change` | Config file specified in `proposed_fix.location` | Edit settings.json, hooks config, or permissions as described |
+| `knowledge_skill_update` | Reference file specified in `proposed_fix.location` (e.g., `skills/clarification-rules/references/scope-and-confirmation-rules.md`) | Append the new item to the appropriate section of the reference file |
 
 After applying all tasks, confirm to the user which tasks were applied and which (if any) were skipped and why.
 
