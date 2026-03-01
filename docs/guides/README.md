@@ -43,6 +43,7 @@
 |---|---|---|
 | [clarification-rules](skills/clarification-rules.md) | 意図確認・スコープ判断ルール | 曖昧なリクエストや計画策定の前 |
 | [implementation-conventions](skills/implementation-conventions.md) | 実装規約（ファイル命名・ツール使用制約） | ファイル操作・実装開始の前 |
+| [response-conventions](skills/response-conventions.md) | 返答スタイル・出力フォーマット規約 | 調査結果や構造化レポートを提示する前 |
 
 ---
 
@@ -61,5 +62,4 @@
 
 ## 関連ファイル
 
-- `skills.md` — 旧スキル一覧（レガシー、参照のみ）
 - `~/.claude/settings.json` — フック登録設定
