@@ -1,0 +1,38 @@
+# Session & project data (volatile, large)
+projects/
+todos/
+tasks/
+plans/
+
+# Shell & history
+shell-snapshots/
+history.jsonl
+
+# Debug & logs
+debug/
+telemetry/
+
+# Claude Code internals
+statsig/
+paste-cache/
+file-history/
+ide/
+config.json
+
+# Build / packages
+node_modules/
+plugins/
+
+# Docs (managed separately or not versioned)
+docs/
+
+# Internal Claude Code settings
+.claude/
+
+# Temp & cache
+tmp/
+backups/
+cache/
+
+# Misc
+bash.exe.stackdump
