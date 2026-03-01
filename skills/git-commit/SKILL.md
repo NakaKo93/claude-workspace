@@ -1,13 +1,13 @@
 ---
 name: git-commit
-description: Creates git commits following a conventional commit format (type(scope): subject). This skill should be used when users want to commit changes, create a commit message, stage and commit files, or save work to git history. Includes safety checks to prevent direct commits to main/master and requires confirmation before executing.
+description: Creates git commits following a conventional commit format (type(scope): subject). This skill should be used when users want to commit changes, create a commit message, stage and commit files, or save work to git history. Includes safety checks to prevent direct commits to main/master.
 disable-model-invocation: false
 allowed-tools: Bash(git:*), Skill(git-branch)
 ---
 
 # Git Commit
 
-To create git commits that follow the project's conventional commit format, with branch safety checks and a confirmation phase before executing.
+To create git commits that follow the project's conventional commit format, with branch safety checks. Execute immediately after presenting the plan — no confirmation prompt.
 
 For commit message format rules (type, scope, subject, examples), see [`references/commit-format.md`](references/commit-format.md).
 
@@ -29,7 +29,7 @@ Typical user messages that trigger this skill:
 
 ## Workflow
 
-This workflow uses 4 steps because each represents a distinct safety gate: (1) branch protection, (2) change inspection, (3) user confirmation, (4) execution. Collapsing any two would bypass a safety check, so the 4-step structure is intentional and not a candidate for splitting.
+This workflow uses 3 steps: (1) branch protection, (2) change inspection and plan, (3) execution. No confirmation prompt — execute immediately after presenting the plan.
 
 Execute the following steps in order.
 
@@ -62,6 +62,22 @@ If the project uses additional protected branches (e.g. `develop`, `staging`, `r
 - If the user cancels branch creation, abort the commit operation entirely.
 
 Do not continue to Step 2 until the user is on a non-protected branch.
+
+**Branch name alignment check:**
+
+After confirming the branch is not protected, inspect the current branch name and the staged/unstaged changes together. Evaluate whether the branch name is semantically aligned with the content of the changes.
+
+- If the branch name clearly matches the nature of the changes (e.g. branch `fix/auth/token-expiry` and the changes are about token expiry), proceed to Step 2.
+- If the branch name does **not** match (e.g. branch `chore/workspace/update-skills` but changes are unrelated to skill updates, or the branch is a broad catch-all that doesn't describe these changes), inform the user:
+
+  > "現在のブランチ `<branch>` は今回の変更内容と合っていない可能性があります。新しいブランチを作成しますか？"
+
+  Then invoke the `git-branch` skill to create an appropriate branch:
+  ```
+  Skill(git-branch)
+  ```
+  Once the new branch is created, **resume from Step 2** automatically.
+  If the user declines, proceed to Step 2 on the current branch as-is.
 
 ### Step 2: Inspect Changes
 
@@ -104,11 +120,11 @@ Logical unit examples: one bug fix, one feature addition, one refactor, one depe
 
 After analyzing, assign every changed file to a commit group. Produce a full commit plan before proceeding to Step 3.
 
-### Step 3 & 4: Propose Plan and Confirm
+### Step 3: Propose Plan and Execute
 
 Read `references/commit-format.md` to apply the correct format rules.
 
-**IMPORTANT: This skill has one mode only. Present the plan and the [yes / edit / cancel] prompt together in a single message. Do NOT ask the user to re-run the command with any flag (e.g. `--apply`). Execution happens immediately after "yes".**
+Present the plan, then **execute immediately** without waiting for confirmation.
 
 **If a single commit covers all changes**, present:
 
@@ -117,11 +133,9 @@ Branch:  <current-branch>
 Files:   <list of files>
 Message: <type>(<scope>): <subject>
 Note:    <変更内容と背景を日本語で一言>
-
-Proceed? [yes / edit / cancel]
 ```
 
-**If multiple commits are needed**, present the full plan with the prompt at the end:
+**If multiple commits are needed**, present the full plan:
 
 ```
 Branch:  <current-branch>
@@ -135,19 +149,9 @@ Branch:  <current-branch>
   - Files:   <file3>
   - Note:    <変更内容を日本語で一言>
 (... as many commits as needed)
-
-Proceed with all commits in this order? [yes / edit / cancel]
 ```
 
-Include a brief explanation of why each type and scope were chosen.
-
-- **yes**: proceed to Step 5 and execute immediately
-- **edit**: ask which commit and which field to change, apply the change, re-present the full plan with the prompt. After 3 edit rounds without confirmation, suggest cancelling and restarting.
-- **cancel**: abort the operation without any git commands
-
-Do not execute any `git commit` command until the user explicitly selects "yes".
-
-### Step 5: Execute Commit(s)
+Include a brief explanation of why each type and scope were chosen, then proceed to execute.
 
 Execute each commit in the confirmed order. For every commit in the plan:
 
