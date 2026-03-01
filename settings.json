@@ -57,6 +57,7 @@
       "Bash(cat:*)",
       "Bash(echo:*)",
       "Bash(mkdir:*)",
+      "Bash(cp:*)",
       "Bash(mv:*)",
 
       "Bash(python:*)",
@@ -77,12 +78,17 @@
 
       "Skill(create-skill)",
       "Skill(validate-skill)",
+      "Skill(create-knowledge-skill)",
+      "Skill(validate-knowledge-skill)",
+      "Skill(create-task-skill)",
+      "Skill(validate-task-skill)",
       "Skill(git-branch)",
       "Skill(commit)",
       "Skill(reflect)",
-      "Skill(ses-extract)",
       "Skill(gh-pr)",
-      "Skill(plain-doc)"
+      "Skill(plain-doc)",
+      "Skill(clarification-rules)",
+      "Skill(implementation-conventions)"
     ]
   },
   "enabledMcpjsonServers": [],
@@ -130,7 +136,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/force-skill-eval.sh\""
+            "command": "bash \"$HOME/.claude/hooks/force-skill-eval.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/no-compound-bash.sh\""
           }
         ]
       }
