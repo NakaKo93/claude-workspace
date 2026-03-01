@@ -83,12 +83,13 @@
       "Skill(create-task-skill)",
       "Skill(validate-task-skill)",
       "Skill(git-branch)",
-      "Skill(commit)",
+      "Skill(git-commit)",
       "Skill(reflect)",
       "Skill(gh-pr)",
       "Skill(plain-doc)",
       "Skill(clarification-rules)",
-      "Skill(implementation-conventions)"
+      "Skill(implementation-conventions)",
+      "Skill(response-conventions)"
     ]
   },
   "enabledMcpjsonServers": [],
