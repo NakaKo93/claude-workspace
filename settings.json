@@ -1,0 +1,168 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(sudo:*)",
+
+      "Read(.env)",
+      "Read(.env.*)",
+      "Write(.env*)",
+
+      "Read(**/secrets/**)",
+      "Write(**/secrets/**)",
+
+      "Read(**/*token*)",
+      "Read(**/*secret*)",
+      "Read(**/*apikey*)",
+      "Read(**/*api_key*)",
+
+      "Read(**/*.key)",
+      "Read(**/*.pem)",
+      "Read(**/*.p12)",
+      "Read(**/*.pfx)",
+      "Read(**/id_rsa)",
+      "Read(**/id_ed25519)",
+
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(nc:*)",
+
+      "Bash(node:*)",
+      "Bash(npm:*)",
+      "Bash(yarn:*)",
+      "Bash(pnpm:*)",
+
+      "Bash(git push -f *)"
+    ],
+    "ask": [
+      "Bash(rm:*)",
+      "Bash(rm -rf:*)",
+
+      "Bash(docker:*)",
+
+      "Bash(git push:*)",
+      "Bash(git rebase:*)",
+      "Bash(git reset:*)",
+      "Bash(git clean:*)"
+    ],
+    "allow": [
+      "Write(*)",
+      "Edit(*)",
+
+      "Bash(ls:*)",
+      "Bash(dir:*)",
+      "Bash(cd:*)",
+      "Bash(pwd:*)",
+      "Bash(tree:*)",
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(echo:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+
+      "Bash(python:*)",
+      "Bash(npx tsc:*)",
+
+      "Bash(git --version:*)",
+      "Bash(git init:*)",
+      "Bash(git config:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git stash:*)",
+
+      "mcp__serena__find_file",
+      "mcp__serena__list_dir",
+
+      "Skill(create-skill)",
+      "Skill(validate-skill)",
+      "Skill(git-branch)",
+      "Skill(commit)",
+      "Skill(reflect)",
+      "Skill(ses-extract)",
+      "Skill(gh-pr)",
+      "Skill(plain-doc)"
+    ]
+  },
+  "enabledMcpjsonServers": [],
+  "enableAllProjectMcpServers": true,
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh",
+    "padding": 2
+  },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "excludedCommands": ["git"],
+    "network": {"allowedDomains": ["github.com", "*.npmjs.org"]}
+  },
+  "hooks": {
+    "PostToolUse": [
+        {
+        "matcher": "Write|Edit",
+        "hooks": [
+            {
+              "type": "command",
+              "command": "[ -f \"$CLAUDE_TOOL_INPUT_FILE_PATH\" ] && case \"$CLAUDE_TOOL_INPUT_FILE_PATH\" in *.js|*.ts|*.tsx|*.jsx|*.json|*.css|*.scss|*.html|*.md|*.yaml|*.yml) npx prettier --write \"$CLAUDE_TOOL_INPUT_FILE_PATH\" 2>/dev/null ;; esac; exit 0"
+            },
+            {
+              "type": "command",
+              "command": "grep -n 'console.log' $CLAUDE_FILE_PATH && echo '⚠️ console.log found' || true"
+            }
+        ]
+        }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/block-dangerous.sh\""
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/force-skill-eval.sh\""
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/play_sound.sh waiting"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git diff --name-only | xargs grep -l 'console.log' 2>/dev/null && echo '⚠️ console.log残存あり' || true"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/play_sound.sh complete"
+          }
+        ]
+      }
+    ]
+  }
+}
