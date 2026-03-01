@@ -29,6 +29,12 @@ elif [ "$PCT" -ge 60 ]; then
   CTX_COLOR="$YELLOW"
 fi
 
+# compact warning
+WARN_MSG=""
+if [ "$PCT" -ge 60 ]; then
+  WARN_MSG=" (⚠️ /compact)"
+fi
+
 # Progress bar
 FILLED=$((PCT / 10))
 EMPTY=$((10 - FILLED))
@@ -73,10 +79,10 @@ CACHE_K=$(fmt_k "$CACHE_READ")
 
 COST_FMT=$(printf '$%.2f' "$COST")
 
-printf "%b[%s]%b%s\n📁 %s\n%b%s %s%%%b | %bΔ %s%b (%bcache %s%b) | %b%s%b\n" \
+printf "%b[%s]%b%s\n📁 %s\n%b%s %s%%%s%b | %bΔ %s%b (%bcache %s%b) | %b%s%b\n" \
   "$CYAN" "$MODEL" "$RESET" "$BRANCH" \
   "${DIR##*/}" \
-  "$CTX_COLOR" "$BAR" "$PCT" "$RESET" \
+  "$CTX_COLOR" "$BAR" "$PCT" "$WARN_MSG" "$RESET" \
   "$DELTA_COLOR" "$DELTA_K" "$RESET" \
   "$CACHE_COLOR" "$CACHE_K" "$RESET" \
   "$YELLOW" "$COST_FMT" "$RESET"
