@@ -76,9 +76,21 @@ python $SKILL_SCRIPTS/init_skill.py <skill-name> --path ~/.claude/skills
 
 Skip this step only if the skill directory already exists.
 
+**After initialization, remove unused template directories:**
+
+`init_skill.py` creates `scripts/` and `assets/` as placeholders. If the skill does not need them, remove them now — empty directories cause validation to fail:
+
+```bash
+# Remove only the directories the skill will NOT use
+rmdir ~/.claude/skills/<skill-name>/scripts
+rmdir ~/.claude/skills/<skill-name>/assets
+```
+
 ### Step 4: Edit the Skill
 
 Start with reusable resources (`scripts/`, `references/`, `assets/`), then write SKILL.md.
+
+**Before writing SKILL.md:** `init_skill.py` has already generated a placeholder `SKILL.md`. The Write tool requires a prior Read before overwriting an existing file — Read it first, then Write.
 
 **Language:** Write all skill content in English.
 
