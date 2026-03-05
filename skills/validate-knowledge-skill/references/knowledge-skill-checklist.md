@@ -51,7 +51,7 @@ Legend: ❌ = must fix before use | ⚠️ = should fix (quality) | ✅ = pass
 | C-3 | ❌ | Every file linked from SKILL.md actually exists | Read each linked path and verify |
 | C-4 | ⚠️ | No files exist that are not linked from SKILL.md (orphan files) | List references/ and compare to links |
 | C-5 | ⚠️ | Reference filenames are descriptive (not `reference.md`, `doc.md`, `info.md`) | List files in references/ |
-| C-6 | ⚠️ | Reference files with 100+ lines have a table of contents at the top | Check length of each reference file |
+| C-6 | ❌ | Reference files with 100+ lines have a table of contents at the top | Check length of each reference file |
 
 ---
 

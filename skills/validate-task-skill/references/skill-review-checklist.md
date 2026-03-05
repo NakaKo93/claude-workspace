@@ -27,11 +27,12 @@ Legend: ❌ = must fix before packaging | ⚠️ = should fix (quality) | ✅ = 
 | A-1 | ❌ | `name` is hyphen-case, 1–64 chars, no leading/trailing hyphens, no consecutive `--` | Inspect frontmatter |
 | A-2 | ❌ | `name` exactly matches the skill directory name | Compare `name:` with directory name |
 | A-3 | ❌ | `description` is present, 1–1024 chars, no `<` `>` angle brackets | Inspect frontmatter |
-| A-4 | ⚠️ | `description` contains "what it does" AND "when to use it" (trigger conditions) | Read description |
-| A-5 | ⚠️ | `description` uses third-person ("This skill should be used when..." not "Use this skill when...") | Read description |
+| A-4 | ⚠️ | `description` contains "what it does" AND "when to use it" (trigger conditions). For user-invocable skills: at least 2 quoted trigger phrases are listed (e.g., `"コミットして"`, `"commit these changes"`) | Read description; check for quoted trigger phrases |
+| A-5 | ⚠️ | `description` uses third-person or 体言止め. Imperative first words (`Use`, `Consult`, `Call`, `Run`) are forbidden — rephrase as "This skill should be used when..." or "Skill that \<verb\>s..." | Check first word of each sentence in description |
 | A-6 | ⚠️ | `description` contains specific searchable keywords (not generic phrases like "helps with tasks") | Read description |
 | A-7 | ⚠️ | `disable-model-invocation: true` is set if the skill creates files, runs commands, or has other side effects | Check if Write/Bash/Edit is in `allowed-tools` → if so, verify this flag is `true` |
 | A-8 | ⚠️ | `allowed-tools` is declared with the minimum necessary set (least privilege) | Verify no extra tools are listed |
+| A-9 | ⚠️ | For user-invocable skills in a Japanese-language context: at least one Japanese trigger phrase (hiragana/katakana/kanji) is included alongside English triggers | Read description for Japanese-character trigger phrases |
 
 ---
 
@@ -72,12 +73,13 @@ Check using `Glob` or `Bash ls` on the skill directory.
 
 | # | Severity | Item | How to check |
 |---|---|---|---|
-| D-1 | ⚠️ | SKILL.md contains overview + core workflow only; details are moved to `references/` if needed | Check body length and complexity |
+| D-1 | ⚠️ | SKILL.md contains step sequence and per-step descriptions only. Judgment criteria, decision tables, checklists, format definitions, and example collections must be in `references/`. | Check body for inline criteria, checklists, or format specs — move any found to `references/` |
 | D-2 | ❌ | References are not chained: SKILL.md links directly to all reference files (no SKILL.md → A.md → B.md chains) | Read reference links in body |
-| D-3 | ⚠️ | Reference files with 100+ lines have a table of contents at the top | Check length of each reference file |
+| D-3 | ❌ | Reference files with 100+ lines have a table of contents at the top | Check length of each reference file |
 | D-4 | ⚠️ | Information is not duplicated between SKILL.md body and `references/` files | Spot-check for repeated content |
 | D-5 | ❌ | All paths in SKILL.md use forward slashes only (no backslashes) | `grep -n "\\\\" SKILL.md` — should return no results |
 | D-6 | ⚠️ | Reference filenames are descriptive (not `reference.md`, `doc.md`, `info.md`) | List files in references/ and verify names reflect content |
+| D-7 | ⚠️ | Each reference file covers exactly one step or one coherent topic. Multiple steps' supporting detail must not be bundled into a single file (bundling forces loading unneeded context when only one step runs). | Check references/ — if one file contains material for 2+ steps, split it |
 
 ---
 

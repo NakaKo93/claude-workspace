@@ -32,6 +32,9 @@ Load this file when planning a new skill or deciding whether to split, merge, or
 | Naming | Use verb+purpose format | Improves trigger accuracy | Examples: `create-skill`, `reflect`, `validate-skill` |
 | Description | State trigger conditions explicitly | Enables precise invocation decisions | Include "when X, use this skill" phrasing |
 | Maintenance | Consolidate when similar skills accumulate | Prevents structural bloat | Review installed skills periodically |
+| Externalization | SKILL.md = flow only; judgment detail → `references/` | Inline criteria add context bloat and are hard to maintain | Tables, checklists, format specs, examples → `references/`; keep only step sequence + descriptions in SKILL.md |
+| Reference granularity | One reference file = one step or topic | Bundling multiple steps' detail forces loading unneeded context | Split by step (`step1-format.md`, `step2-criteria.md`), not by broad block (`all-formats.md`) |
+| Reference readability | Reference files with 100+ lines must include a table of contents at the top | Long files without navigation require scanning entire content to find relevant section | Add `## Table of Contents` with anchored links after the opening description |
 
 ---
 
