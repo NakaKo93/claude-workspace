@@ -13,7 +13,8 @@
 
 | スキル | 概要 | 起動フレーズ |
 |---|---|---|
-| [git-commit](skills/git-commit.md) | 変更をコンベンショナルコミット形式でコミット | `コミットして` |
+| [commit-workflow](skills/commit-workflow.md) | ブランチ確認→コミット→同期の安全なコミットフロー | `コミットして` |
+| [git-commit](skills/git-commit.md) | 変更をコンベンショナルコミット形式でコミット（単体呼び出し用） | — |
 | [git-branch](skills/git-branch.md) | 規約に沿ったブランチを作成・削除 | `ブランチを切って` |
 | [gh-pr](skills/gh-pr.md) | GitHub Pull Request を作成 | `PRを作って` |
 

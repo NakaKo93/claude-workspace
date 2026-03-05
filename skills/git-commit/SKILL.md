@@ -1,8 +1,8 @@
 ---
 name: git-commit
-description: Creates git commits following a conventional commit format (type(scope): subject). This skill should be used when users want to commit changes, create a commit message, stage and commit files, or save work to git history. Includes safety checks to prevent direct commits to main/master.
+description: Creates git commits following a conventional commit format (type(scope): subject). Handles staging, message generation, and execution only. Primarily called by the commit-workflow orchestrator; also invocable directly for targeted commits — trigger phrases include "コミットして", "変更をコミットして", "commit these changes", "コミットメッセージを作って".
 disable-model-invocation: false
-allowed-tools: Bash(git:*), Skill(git-branch), Skill(sync-branch)
+allowed-tools: Bash(git:*)
 ---
 
 # Git Commit
@@ -52,32 +52,10 @@ If the project uses additional protected branches (e.g. `develop`, `staging`, `r
 **If the current branch matches any protected branch:**
 
 - STOP immediately. Do not proceed with the commit.
-- Inform the user: "Direct commits to `<branch>` are not allowed."
-- Invoke the `git-branch` skill to create a new branch:
-  ```
-  Skill(git-branch)
-  ```
-  The `git-branch` skill will guide the user through naming and creating a branch.
-- Once the `git-branch` skill completes and the user is on a new branch, **resume from Step 2** automatically.
-- If the user cancels branch creation, abort the commit operation entirely.
+- Inform the user: "Direct commits to `<branch>` are not allowed. Please switch to a feature branch first."
+- Abort the commit operation entirely.
 
 Do not continue to Step 2 until the user is on a non-protected branch.
-
-**Branch name alignment check:**
-
-After confirming the branch is not protected, inspect the current branch name and the staged/unstaged changes together. Evaluate whether the branch name is semantically aligned with the content of the changes.
-
-- If the branch name clearly matches the nature of the changes (e.g. branch `fix/auth/token-expiry` and the changes are about token expiry), proceed to Step 2.
-- If the branch name does **not** match (e.g. branch `chore/workspace/update-skills` but changes are unrelated to skill updates, or the branch is a broad catch-all that doesn't describe these changes), inform the user:
-
-  > "現在のブランチ `<branch>` は今回の変更内容と合っていない可能性があります。新しいブランチを作成しますか？"
-
-  Then invoke the `git-branch` skill to create an appropriate branch:
-  ```
-  Skill(git-branch)
-  ```
-  Once the new branch is created, **resume from Step 2** automatically.
-  If the user declines, proceed to Step 2 on the current branch as-is.
 
 ### Step 2: Inspect Changes
 
@@ -188,17 +166,11 @@ Branch: <branch>
 
 Obtain each hash from the `git commit` output (e.g. `[branch abc1234] ...`) rather than running a separate `git log` command.
 
-After reporting the result, invoke the `sync-branch` skill to bring the work branch up to date with main:
-
-```
-Skill(sync-branch)
-```
-
 ---
 
 ## Error Handling
 
-- **On `main` or `master`**: STOP immediately — do not proceed with the commit. Invoke `Skill(git-branch)` to create a new branch. Resume from Step 2 after the user switches to the new branch. If the user cancels, abort entirely.
+- **On `main` or `master`**: STOP immediately — do not proceed with the commit. Inform the user to switch to a feature branch. Abort entirely.
 - **Nothing to commit** (`working tree clean`): STOP and inform the user. Do not proceed.
 - **Nothing staged**: Ask the user whether to stage all changes (`git add -A`) or specific files. Wait for their decision before proceeding.
 - **Pre-commit hook failure**: Inform the user which hook failed. Offer two options: (a) fix the reported errors and retry, or (b) skip hooks with `--no-verify` (warn that this bypasses quality checks). Do not retry automatically.
