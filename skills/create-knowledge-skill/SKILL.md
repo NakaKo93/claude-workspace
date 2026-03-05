@@ -24,7 +24,10 @@ For the Knowledge Skill file structure and content guidelines, see [references/k
 
 ### Step 1: Understand the Knowledge Domain
 
-Ask the user what domain knowledge this skill will capture. Key questions:
+If the knowledge domain, reference topics, and content are already defined in the current context
+(e.g. from a plan, a prior discussion, or an explicit specification), skip this step and proceed to Step 2.
+
+Otherwise, ask the user what domain knowledge this skill will capture. Key questions:
 
 - "What information should Claude know before working on this domain?"
 - "What conventions, schemas, or rules apply?"

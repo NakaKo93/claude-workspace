@@ -173,12 +173,22 @@ The `forms.md` and `reference.md` files are not needed for general PDF tasks, so
 
 | Content type | Where to put it | Why |
 |---|---|---|
-| Overview, core workflow, key rules | SKILL.md body (Level 2) | Must be available whenever the skill activates |
-| Reference tables, schemas, large examples | `references/<topic>.md` (Level 3) | Loaded only for sub-tasks that need them |
+| Workflow structure: step sequence, per-step descriptions, sub-skill invocations | SKILL.md body (Level 2) | Must be available whenever the skill activates |
+| Judgment criteria, decision tables, checklists, format definitions, example collections | `references/<topic>.md` (Level 3) — **one file per step or topic** | Supporting detail — loaded only when the specific step needs it |
+| Reference tables, schemas, large examples | `references/<topic>.md` (Level 3) — **one file per step or topic** | Loaded only for sub-tasks that need them |
 | Repeated code / deterministic logic | `scripts/<name>.py` (Level 3) | Only output enters context; source never does |
 | Templates, binary assets | `assets/` (Level 3) | Used in output; not loaded into context |
 
-> **Rule of thumb**: If removing a section from SKILL.md would break the core workflow, it belongs in SKILL.md. If it is reference material that only some tasks need, move it to `references/` and link to it from SKILL.md.
+> **Rule of thumb**: Ask two questions:
+> 1. *Is it part of the flow?* — Step sequence, what each step does, which sub-skill to call next → **SKILL.md**
+> 2. *Is it supporting detail?* — Judgment criteria, decision tables, checklists, format specs, examples → **`references/`**
+>
+> If removing a section would make Claude unable to follow the workflow, it belongs in SKILL.md.
+> If it could be looked up only when needed, move it to `references/` and link to it.
+>
+> **Granularity rule**: Split reference files by step or topic — not by broad block.
+> One reference file = one step's supporting detail or one coherent topic.
+> Bundling multiple steps into one file forces Claude to load unneeded context.
 
 ---
 

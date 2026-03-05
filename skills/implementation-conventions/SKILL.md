@@ -3,7 +3,7 @@ name: implementation-conventions
 description: >
   Read-only reference skill providing language-agnostic implementation conventions,
   including file naming rules and tool execution constraints (e.g., Read-before-Edit).
-  Consult before starting any implementation task (writing files, scripts, or running commands).
+  This skill should be loaded before starting any implementation task (writing files, scripts, or running commands).
 user-invocable: false
 ---
 

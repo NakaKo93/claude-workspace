@@ -26,7 +26,10 @@ For skill design rules (single purpose, module limits, split/orchestrator decisi
 
 ### Step 1: Understand the Skill with Concrete Examples
 
-Ask the user for concrete examples of how the skill will be used. Key questions:
+If the skill's purpose, trigger phrases, and content are already defined in the current context
+(e.g. from a plan, a prior discussion, or an explicit specification), skip this step and proceed to Step 2.
+
+Otherwise, ask the user for concrete examples of how the skill will be used. Key questions:
 
 - "What functionality should the skill support?"
 - "What would a user say to trigger this skill?"

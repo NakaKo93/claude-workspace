@@ -1,6 +1,6 @@
 ---
 name: gh-pr
-description: Creates a GitHub Pull Request using the gh CLI, following the project's PR writing guidelines (summary, background, changes, impact, review points, verification steps). This skill should be used when the user wants to create a PR, open a pull request, or submit changes for review.
+description: Creates a GitHub Pull Request using the gh CLI, following the project's PR writing guidelines (summary, background, changes, impact, review points, verification steps). This skill should be used when the user wants to create a PR, open a pull request, or submit changes for review — trigger phrases include "PRを作って", "プルリクエスト作成して", "create a PR", "この変更をPRにして".
 disable-model-invocation: false
 allowed-tools: Bash(gh:*), Bash(git:*)
 ---
