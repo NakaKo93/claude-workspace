@@ -1,6 +1,6 @@
 ---
 name: git-branch
-description: Creates and cleans up Git branches following the conventional branch naming format (type/scope/slug). This skill should be used when users want to create a new branch, name a feature branch, switch to a work branch, or delete a merged branch.
+description: Creates and cleans up Git branches following the conventional branch naming format (type/scope/slug). This skill should be used when users want to create a new branch, name a feature branch, switch to a work branch, or delete a merged branch — trigger phrases include "新しいブランチを切って", "ブランチを作って", "create a branch", "マージしたブランチを削除して".
 disable-model-invocation: false
 allowed-tools: Bash(git:*)
 ---
@@ -9,7 +9,8 @@ allowed-tools: Bash(git:*)
 
 To create and clean up Git branches following the project's conventional naming format. Branch creation executes immediately after presenting the plan — no confirmation prompt. Branch deletion always requires explicit confirmation.
 
-For naming format rules (type, scope, slug, examples, lifecycle), see [`references/naming-rules.md`](references/naming-rules.md).
+For naming format rules (type, scope, slug, examples), see [`references/naming-format.md`](references/naming-format.md).
+For branch lifecycle rules (max lifespan, base branch, merge policy), see [`references/lifecycle-rules.md`](references/lifecycle-rules.md).
 
 ## Example Usage
 
@@ -43,7 +44,7 @@ If the intent is unclear, ask:
 
 ### Step 2: Propose a Branch Name (Create)
 
-Read `references/naming-rules.md` to apply the correct naming format.
+Read `references/naming-format.md` to apply the correct naming format.
 
 If the user has not provided enough context to derive a branch name, ask:
 
