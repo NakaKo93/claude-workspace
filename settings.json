@@ -82,6 +82,7 @@
       "Skill(validate-knowledge-skill)",
       "Skill(create-task-skill)",
       "Skill(validate-task-skill)",
+      "Skill(commit-workflow)",
       "Skill(git-branch)",
       "Skill(git-commit)",
       "Skill(sync-branch)",
@@ -129,6 +130,15 @@
           {
             "type": "command",
             "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/block-dangerous.sh\""
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/protect-files.sh\""
           }
         ]
       }

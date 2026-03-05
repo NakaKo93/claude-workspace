@@ -2,7 +2,7 @@
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command')
 
-# 危険なパターンをチェック
+# 危険なコマンド
 DANGEROUS_PATTERNS=(
   "rm -rf /"
   "rm -rf ~"
@@ -17,7 +17,7 @@ DANGEROUS_PATTERNS=(
 
 for pattern in "${DANGEROUS_PATTERNS[@]}"; do
   if echo "$COMMAND" | grep -qiE "$pattern"; then
-    echo "危険なコマンドがブロックされました: $pattern にマッチ" >&2
+    echo "危険なコマンドがブロックしました: $pattern" >&2
     exit 2
   fi
 done
