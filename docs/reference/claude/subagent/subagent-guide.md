@@ -346,17 +346,18 @@ Continue that code review and now analyze the authorization logic
    - タスク実行の具体的な手順（番号付きステップ）
    - 確認すべきチェックリスト
    - 出力フォーマットの定義
-5. **ツールを必要最小限に**: `tools` または `disallowedTools` で不要な権限を除外
+5. **ツールを必要最小限に**: `tools` または `disallowedTools` で不要な権限を除外。Anthropicのsandboxing事例では、filesystem/network isolationを設定することで permission promptが84%削減された
 6. **大量出力はsubagent内で消化**: 詳細ログを親に全部返さず、要約だけを返す
-7. **独立タスクのみ並列化**: 依存関係があるタスクの無理な並列化は避ける
-8. **長時間作業はresume前提で設計**: incremental progressと明確なartifactsを残す
-9. **まず単純な設計から始める**: 複雑なマルチエージェント構成は必要になってから追加
+7. **独立タスクのみ並列化**: 依存関係があるタスクの無理な並列化は避ける。Anthropicのmulti-agent researchでは、lead agentが3–5個のsubagentsを並列起動し、subagent側でも複数ツールを並列使用して速度・性能を最大化している
+8. **長時間作業はresume前提で設計**: incremental progressと明確なartifactsを残す。Anthropic事例では「initializer → coding agent」のように役割を分け、毎回の中間結果を保存する設計が有効
+9. **Context Engineeringとして捉える**: context rotを防ぐため、システムプロンプトは「最小の高シグナル情報」のみに絞る。contextは増やすほどfocusが落ちる（Anthropicはこれを"context rot"と呼ぶ）。subagentはこの原則と相性がよく、大量出力を隔離して親コンテキストをリーンに保てる
+10. **まず単純な設計から始める**: 複雑なマルチエージェント構成は必要になってから追加
 
 ### 運用
 
-10. **project subagentsはバージョン管理へ**: `.claude/agents/` をgitに含めてチームで共有
-11. **evaluation を回す**: 実運用タスクに基づくテストケースで継続的に改善
-12. **observabilityを確保**: トランスクリプトを活用してデバッグ・改善
+11. **project subagentsはバージョン管理へ**: `.claude/agents/` をgitに含めてチームで共有
+12. **fast iteration loopで育てる**: まずシンプルなsubagentを作り、実運用タスクに基づくtest casesで評価し、必要になってから多段階・多エージェント化する
+13. **observabilityを確保**: トランスクリプト (`~/.claude/projects/…/subagents/`) を活用してデバッグ・改善。evaluationなしにsubagentを作るだけでは実効性が不明
 
 ---
 
@@ -373,7 +374,7 @@ Continue that code review and now analyze the authorization logic
 | **長時間作業を毎回新規インスタンスで** | 前回の探索・推論・中間結果を失う |
 | **contextを増やせば賢くなると思い込む** | "context rot"でfocusが低下 |
 | **最初から複雑なマルチエージェント構成** | 過設計。simple patternsから始めるべき |
-| **evaluationを後回しにする** | 実効性の確認なしに設計が複雑化 |
+| **evaluationを後回しにする** | fast iteration loop・observability・test cases・comprehensive evaluationなしに設計が複雑化し、実効性が不明なまま運用される |
 
 ---
 
