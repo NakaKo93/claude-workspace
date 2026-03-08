@@ -28,3 +28,4 @@ Ask these in order. Stop when the answer is clear — do not ask all at once.
 | Should it always run in the background? | `background: true` |
 | Does it need to run in an isolated git copy? | `isolation: worktree` |
 | Does it need specific skills preloaded? | `skills` list |
+| Is this a long-running task that may span multiple sessions? | design for `resume` + incremental artifacts |

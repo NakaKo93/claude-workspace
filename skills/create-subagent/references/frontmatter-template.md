@@ -88,3 +88,5 @@ Before finalizing, verify the system prompt includes:
 - [ ] Domain-specific checklist or key practices
 - [ ] Output format / feedback structure
 - [ ] Any explicit constraints ("You cannot modify data...")
+- [ ] **Lean content only** — no general knowledge Claude already has; avoid "context rot" by keeping the prompt focused on domain-specific, high-signal information
+- [ ] For long-running tasks: instruction to save incremental progress artifacts so the task can be resumed
