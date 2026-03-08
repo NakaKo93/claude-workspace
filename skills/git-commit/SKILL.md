@@ -9,7 +9,7 @@ allowed-tools: Bash(git:*)
 
 To create git commits that follow the project's conventional commit format, with branch safety checks. Execute immediately after presenting the plan — no confirmation prompt.
 
-For commit message format rules (type, scope, subject, examples), see [`references/commit-format.md`](references/commit-format.md).
+For commit message format rules (type, scope, subject, examples), see [`~/.claude/docs/reference/git/commit-format.md`](~/.claude/docs/reference/git/commit-format.md).
 
 ## Example Usage
 
@@ -100,7 +100,7 @@ After analyzing, assign every changed file to a commit group. Produce a full com
 
 ### Step 3: Propose Plan and Execute
 
-Read `references/commit-format.md` to apply the correct format rules.
+Read `~/.claude/docs/reference/git/commit-format.md` to apply the correct format rules.
 
 Present the plan, then **execute immediately** without waiting for confirmation.
 

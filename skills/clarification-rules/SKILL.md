@@ -15,7 +15,7 @@ Rules that define when Claude must stop and ask the user, and how to determine
 the correct scope of any change before proceeding.
 
 For stop-and-confirm triggers, scope boundaries, and anti-patterns, see
-[references/scope-and-confirmation-rules.md](references/scope-and-confirmation-rules.md).
+[~/.claude/docs/reference/claude/workflow/clarification-rules.md](~/.claude/docs/reference/claude/workflow/clarification-rules.md).
 
 ## When to Use
 
@@ -29,4 +29,4 @@ Claude should load this skill when:
 
 ## What This Skill Provides
 
-- `references/scope-and-confirmation-rules.md` — Stop-and-confirm triggers, scope boundary rules, anti-patterns, and conditions when it is safe to proceed without asking
+- `~/.claude/docs/reference/claude/workflow/clarification-rules.md` — Stop-and-confirm triggers, scope boundary rules, anti-patterns, and conditions when it is safe to proceed without asking

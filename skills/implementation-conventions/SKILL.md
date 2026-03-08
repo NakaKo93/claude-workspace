@@ -12,7 +12,7 @@ user-invocable: false
 Language-agnostic rules applied across all projects, covering file naming consistency
 and tool execution constraints.
 
-For the full rule set, see [references/rules.md](references/rules.md).
+For the full rule set, see [~/.claude/docs/reference/claude/workflow/implementation-conventions.md](~/.claude/docs/reference/claude/workflow/implementation-conventions.md).
 
 ## When to Use
 
@@ -25,4 +25,4 @@ Claude should load this skill when:
 
 ## What This Skill Provides
 
-- `references/rules.md` — File naming consistency rules and Read-before-Edit procedure (parallel edit pre-check)
+- `~/.claude/docs/reference/claude/workflow/implementation-conventions.md` — File naming consistency rules and Read-before-Edit procedure (parallel edit pre-check)

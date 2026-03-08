@@ -16,6 +16,7 @@ Legend: ❌ = must fix before packaging | ⚠️ = should fix (quality) | ✅ = 
 - [G. Trigger Accuracy](#g-trigger-accuracy)
 - [H. Testing & Evaluation](#h-testing--evaluation)
 - [I. Skill Architecture](#i-skill-architecture)
+- [J. File Placement (docs vs references)](#j-file-placement-docs-vs-references)
 - [Reporting Format](#reporting-format)
 
 ---
@@ -178,6 +179,31 @@ Testing is performed **after** placing the skill, not during pre-packaging revie
 
 ---
 
+## J. File Placement (docs vs references)
+
+Rules for distinguishing `docs/` (authoritative human documents) from `references/` (skill-execution aids).
+
+| # | Severity | Item | How to check |
+|---|---|---|---|
+| J-1 | ❌ | `references/` files do not contain content that belongs in `docs/`: design policies, naming rules, review criteria, or operational rules that humans agree on and update | Read each reference file — if the content reads as a shared standard or policy, it should live in `docs/` |
+| J-2 | ⚠️ | `references/` files contain only skill-execution aids: output formats, JSON schemas, report templates, few-shot examples, or skill-specific I/O contracts | Verify each reference file serves the skill's runtime needs, not documentation purposes |
+| J-3 | ❌ | `references/` files are not paraphrases or excerpts of `docs/` content (no knowledge copy-paste) | If a reference file says the same thing as a docs file, remove it and link to the docs source instead |
+| J-4 | ⚠️ | `docs/` files do not contain skill-specific output templates, schemas, or execution-only helpers | Check that `docs/` content is suitable for humans to read and update independently of any skill |
+| J-5 | ❌ | There is a clear single source of truth: if similar content exists in both `docs/` and `references/`, one is the authority and the other is derived (with an explicit link) | Look for duplicated rules or descriptions across the two locations |
+
+**Decision aid:**
+
+| Question | → Location |
+|---|---|
+| Will a human read and agree on this as a standard? | `docs/` |
+| Is this needed only when Claude executes this skill? | `references/` |
+| Does this define shared naming, design, or review policy? | `docs/` |
+| Is this an output template, schema, or few-shot example? | `references/` |
+| Would another skill or team member also need this? | `docs/` |
+| Is this useful only inside this skill's workflow? | `references/` |
+
+---
+
 ## Reporting Format
 
 After going through all items, report the results in this format:
@@ -195,6 +221,7 @@ After going through all items, report the results in this format:
 | F. Workflow Quality | n | n | n |
 | G. Trigger Accuracy | n | n | n |
 | I. Skill Architecture | n | n | n |
+| J. File Placement | n | n | n |
 
 ### Issues Found
 

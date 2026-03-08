@@ -26,6 +26,7 @@ plugins/
 # Docs (managed separately or not versioned)
 docs/*
 !docs/guides
+!docs/reference
 
 # Internal Claude Code settings
 .claude/

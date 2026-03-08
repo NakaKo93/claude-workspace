@@ -9,7 +9,7 @@ allowed-tools: Bash(gh:*), Bash(git:*)
 
 To create well-structured GitHub Pull Requests using the `gh` CLI, following PR writing best practices.
 
-For the full PR body template, required/conditional fields, writing rules, and anti-patterns, see [`references/pr-guidelines.md`](references/pr-guidelines.md).
+For the full PR body template, required/conditional fields, writing rules, and anti-patterns, see [`~/.claude/docs/reference/git/pr-guidelines.md`](~/.claude/docs/reference/git/pr-guidelines.md).
 
 ## Example Usage
 
@@ -80,7 +80,7 @@ Identify:
 
 ### Step 3: Draft PR Body
 
-Read `references/pr-guidelines.md` to apply the correct template and field rules.
+Read `~/.claude/docs/reference/git/pr-guidelines.md` to apply the correct template and field rules.
 
 **Language rule: All PR body content must be written in Japanese.** Use the fixed Japanese section headings from the template — do not use English equivalents.
 

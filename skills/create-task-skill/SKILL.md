@@ -10,7 +10,7 @@ allowed-tools: Bash, Read, Write, Edit, Glob
 Create a new Claude Code Task Skill by understanding requirements, planning resources, initializing the skill directory, and writing effective content.
 
 For skill anatomy, frontmatter fields, bundled resources, and Progressive Disclosure architecture, see [references/about-skills.md](references/about-skills.md).
-For skill design rules (single purpose, module limits, split/orchestrator decisions, naming), see [references/design-rules.md](references/design-rules.md).
+For skill design rules (single purpose, module limits, split/orchestrator decisions, naming), see [~/.claude/docs/reference/claude/skills/design-rules.md](~/.claude/docs/reference/claude/skills/design-rules.md).
 
 ## Example Usage
 

@@ -9,8 +9,8 @@ allowed-tools: Bash(git:*)
 
 To create and clean up Git branches following the project's conventional naming format. Branch creation executes immediately after presenting the plan — no confirmation prompt. Branch deletion always requires explicit confirmation.
 
-For naming format rules (type, scope, slug, examples), see [`references/naming-format.md`](references/naming-format.md).
-For branch lifecycle rules (max lifespan, base branch, merge policy), see [`references/lifecycle-rules.md`](references/lifecycle-rules.md).
+For naming format rules (type, scope, slug, examples), see [`~/.claude/docs/reference/git/branch-naming.md`](~/.claude/docs/reference/git/branch-naming.md).
+For branch lifecycle rules (max lifespan, base branch, merge policy), see [`~/.claude/docs/reference/git/branch-lifecycle.md`](~/.claude/docs/reference/git/branch-lifecycle.md).
 
 ## Example Usage
 
@@ -44,7 +44,7 @@ If the intent is unclear, ask:
 
 ### Step 2: Propose a Branch Name (Create)
 
-Read `references/naming-format.md` to apply the correct naming format.
+Read `~/.claude/docs/reference/git/branch-naming.md` to apply the correct naming format.
 
 If the user has not provided enough context to derive a branch name, ask:
 
