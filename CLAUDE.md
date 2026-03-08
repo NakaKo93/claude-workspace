@@ -13,3 +13,12 @@ If a request is ambiguous — the target, method, or goal is unclear — ask the
 ## Environment
 
 - **Windows MINGW64**: `mv` fails for directory rename. Use `mkdir` + copy files + `rm -rf` instead.
+
+## Memory Rules
+
+- Only write to `MEMORY.md` information that is NOT already covered in `CLAUDE.md`.
+- When a memory entry becomes stable and universal, move it to `CLAUDE.md` and remove it from `MEMORY.md`.
+
+## Path Rules
+
+- Never use absolute paths (e.g., `C:/Users/...`) in config files or scripts. Always use `~` or relative paths.
