@@ -38,7 +38,8 @@ If the user's initial message already answers some questions, skip those and ask
 
 ### Step 2: Generate the Subagent File
 
-Read `references/frontmatter-template.md` for the field selection guide, template, and system prompt checklist.
+Read `references/frontmatter-template.md` for the field selection guide, YAML template, and system prompt checklist.
+Read `references/templates.md` for few-shot examples of complete subagent files by task type.
 
 From the interview answers, generate a complete subagent Markdown file:
 
