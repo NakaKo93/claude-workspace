@@ -1,146 +1,146 @@
-# Skill Design Rules
+# スキル設計ルール
 
-Evidence-based rules for building focused, high-performing Claude Code skills.
-Load this file when planning a new skill or deciding whether to split, merge, or add an orchestrator.
+根拠に基づいた、集中度の高いClaude Codeスキルを構築するためのルール。
+新しいスキルを計画する際、または分割・統合・オーケストレーター追加を判断する際にこのファイルを参照する。
 
-## Table of Contents
+## 目次
 
-- [Core Rules](#core-rules)
-- [Split vs. Consolidate Decision](#split-vs-consolidate-decision)
-- [Orchestration Pattern](#orchestration-pattern)
-- [Naming Convention](#naming-convention)
-- [Real-World Example](#real-world-example)
+- [コアルール](#コアルール)
+- [分割 vs 統合の判断](#分割-vs-統合の判断)
+- [オーケストレーションパターン](#オーケストレーションパターン)
+- [命名規則](#命名規則)
+- [実例](#実例)
 
 ---
 
-## Core Rules
+## コアルール
 
-| Category | Rule | Rationale | How to apply |
+| カテゴリ | ルール | 根拠 | 適用方法 |
 |---|---|---|---|
-| Single purpose | 1 Skill = 1 clear goal | Mixed goals reduce success rate | Goal must be expressible in one sentence |
-| Module count | Limit to 2–3 modules | Focused Skills perform best (SkillsBench) | Count top-level steps; if 4+, split |
-| Content density | Avoid exhaustive descriptions | Excess information degrades performance | Write procedures, not encyclopedias |
-| Structure | Procedural (step-by-step) | Explicit steps improve output quality | Write "what to do" in numbered order |
-| Reusability | Split into reusable units | Skill chaining is effective | Ask: can this unit serve other tasks independently? |
-| Split rule | Redesign when modules ≥ 4 | Over-information is a performance signal | Create independent skills per goal |
-| Merge rule | Merge when tightly coupled with same goal | Over-splitting adds complexity | Single goal = single skill |
-| Chain design | Use skill chains for complex flows | Internal simplicity + external composition | Each skill stays focused; chain handles flow |
-| Orchestrator body | No detailed steps in orchestrator | Duplicate instructions become noise | Orchestrator lists `/skill-name` calls only |
-| Chain depth | Avoid excessive chaining | Cognitive load grows with depth | Keep chains to ~5 invocations maximum |
-| Auto-generation | Do not rely on auto-generated skills | Self-generation underperforms | Hand-craft skill structure |
-| Model size | Small models can be effective | Skills compensate for model limitations | Use skills to enable cost optimization |
-| Naming | Use verb+purpose format | Improves trigger accuracy | Examples: `create-skill`, `reflect`, `validate-skill` |
-| Description | State trigger conditions explicitly | Enables precise invocation decisions | Include "when X, use this skill" phrasing |
-| Maintenance | Consolidate when similar skills accumulate | Prevents structural bloat | Review installed skills periodically |
-| Externalization | SKILL.md = flow only; judgment detail → `references/` | Inline criteria add context bloat and are hard to maintain | Tables, checklists, format specs, examples → `references/`; keep only step sequence + descriptions in SKILL.md |
-| Reference granularity | One reference file = one step or topic | Bundling multiple steps' detail forces loading unneeded context | Split by step (`step1-format.md`, `step2-criteria.md`), not by broad block (`all-formats.md`) |
-| Reference readability | Reference files with 100+ lines must include a table of contents at the top | Long files without navigation require scanning entire content to find relevant section | Add `## Table of Contents` with anchored links after the opening description |
-| docs vs references | `docs/` = authoritative human documents; `references/` = skill-execution aids only | Mixing them creates ambiguous ownership and content duplication | Design policies, naming rules, review criteria → `docs/`; output formats, schemas, templates, few-shot examples → `references/` |
-| No knowledge copies | `references/` must not paraphrase or excerpt `docs/` content | Duplicating knowledge splits ownership and causes drift | If a reference file restates a docs rule, remove it and add a link to the docs source |
+| 単一目的 | 1スキル = 1つの明確な目標 | 目的が混在すると成功率が下がる | 目標を1文で表現できること |
+| モジュール数 | 2〜3モジュールに限定 | 集中したスキルが最高性能（SkillsBench） | トップレベルのステップ数を数え、4以上なら分割 |
+| コンテンツ密度 | 網羅的な説明を避ける | 情報過多は性能を低下させる | 百科事典ではなく手順を書く |
+| 構造 | 手順型（ステップバイステップ） | 明示的なステップが出力品質を向上させる | 番号付きで「何をすべきか」を書く |
+| 再利用性 | 再利用可能な単位に分割 | スキルチェーニングは効果的 | 「このユニットは他のタスクにも独立して使えるか？」を問う |
+| 分割ルール | モジュールが4以上になったら再設計 | 情報過多は性能低下のシグナル | 目標ごとに独立したスキルを作成 |
+| 統合ルール | 同じ目標で密結合している場合は統合 | 過剰分割は複雑性を増す | 単一目標 = 単一スキル |
+| チェーン設計 | 複雑なフローにはスキルチェーンを使用 | 内部の単純さ + 外部での組み合わせ | 各スキルを集中させ、フローはチェーンで処理 |
+| オーケストレーター本体 | オーケストレーターに詳細ステップを書かない | 重複した指示はノイズになる | オーケストレーターは `/skill-name` の呼び出しのみ |
+| チェーン深度 | 過剰なチェーニングを避ける | 認知負荷はチェーンの深さとともに増大 | チェーンは最大5呼び出し程度に留める |
+| 自動生成 | 自動生成スキルに依存しない | 自己生成は性能が劣る | スキル構造は手作りする |
+| モデルサイズ | 小モデルでも効果的に使える | スキルがモデルの限界を補う | スキルを使ってコスト最適化を実現 |
+| 命名 | verb+purpose 形式を使用 | トリガー精度が向上する | 例: `create-skill`, `reflect`, `validate-skill` |
+| 説明文 | トリガー条件を明示する | 正確な呼び出し判断を可能にする | 「Xのとき、このスキルを使う」という表現を含める |
+| メンテナンス | 類似スキルが増えたら統合する | 構造的な肥大化を防ぐ | インストール済みスキルを定期的に見直す |
+| 外部化 | SKILL.md = フローのみ。判断の詳細は `references/` へ | インラインの判断基準はコンテキスト肥大化を招き、保守が困難 | テーブル・チェックリスト・フォーマット仕様・例 → `references/`。SKILL.mdにはステップ順序と説明のみ |
+| 参照粒度 | 参照ファイル1つ = 1ステップまたは1トピック | 複数ステップの詳細を1ファイルにまとめると、不要なコンテキストが強制ロードされる | ステップ別に分割（`step1-format.md`, `step2-criteria.md`）し、広いブロック（`all-formats.md`）にまとめない |
+| 参照の可読性 | 100行以上の参照ファイルには先頭に目次を付ける | 目次なしの長いファイルは全体をスキャンしないと目的の箇所が見つからない | `## 目次` をアンカーリンク付きで追加 |
+| docs と references | `docs/` = 人間が合意する権威ある文書。`references/` = スキル実行支援のみ | 混在すると所有権が曖昧になりコンテンツが重複する | 設計ポリシー・命名ルール・レビュー基準 → `docs/`。出力フォーマット・スキーマ・テンプレート・few-shot例 → `references/` |
+| 知識のコピー禁止 | `references/` は `docs/` の内容を言い換え・抜粋してはいけない | 知識の重複は所有権を分散させ、ドリフトを引き起こす | 参照ファイルがdocsのルールを再述している場合、削除してdocsへのリンクを追加する |
 
 ---
 
-## Split vs. Consolidate Decision
+## 分割 vs 統合の判断
 
-Use this flowchart when scoping a skill in Step 2:
+Step 2でスキルのスコープを決める際にこのフローチャートを使用する:
 
 ```
-1. Can the goal be stated in ONE sentence?
-   └── No  → Split into focused sub-skills, then restart for each
+1. 目標を1文で表現できるか？
+   └── No  → 集中した個々のサブスキルに分割し、各々から再開始
 
-2. Count the planned top-level workflow steps (modules):
-   ├── 2–3 → Keep as a single skill ✅
-   └── 4+  → Consider splitting ⚠️
-              └── Do the sub-units have independent value?
-                  ├── Yes → Split + evaluate if orchestrator is needed (see below)
-                  └── No  → Keep as single skill (document the justification)
+2. 計画しているトップレベルのワークフローステップ数（モジュール）を数える:
+   ├── 2〜3 → 単一スキルとして維持 ✅
+   └── 4+  → 分割を検討 ⚠️
+              └── サブユニットは独立した価値を持つか？
+                  ├── Yes → 分割 + オーケストレーターが必要か評価（下記参照）
+                  └── No  → 単一スキルとして維持（理由を文書化する）
 
-3. Do the sub-skills always run together in a fixed sequence?
-   ├── Yes + combined flow is large → Create an orchestrator skill
-   ├── Yes + one naturally ends with "invoke X" → Use a linear chain (simpler)
-   └── No  → Call sub-skills independently as needed
+3. サブスキルは常に固定の順序で一緒に実行されるか？
+   ├── Yes + 組み合わせフローが大きい → オーケストレータースキルを作成
+   ├── Yes + 一方が「次にXを呼び出す」で自然に終わる → リニアチェーンを使用（よりシンプル）
+   └── No  → 必要に応じてサブスキルを独立して呼び出す
 ```
 
-**Merge check** — before splitting, verify the opposite is not true:
-- If two skills share the exact same goal and are always used together → merge them
-- Over-splitting creates unnecessary complexity
+**統合チェック** — 分割前に逆が真でないか確認:
+- 2つのスキルがまったく同じ目標を持ち、常に一緒に使われる場合 → 統合する
+- 過剰分割は不要な複雑性を生む
 
 ---
 
-## Orchestration Pattern
+## オーケストレーションパターン
 
-### When to create an orchestrator skill
+### オーケストレータースキルを作成するタイミング
 
-Create an orchestrator when ALL of the following are true:
+以下の**すべて**が真のときにオーケストレーターを作成する:
 
-1. Two or more sub-skills **always run together** in sequence
-2. The combined flow would exceed 3 modules in a single skill
-3. Each sub-skill has **independent value** when called alone
+1. 2つ以上のサブスキルが**常に順番に一緒に実行**される
+2. 組み合わせたフローが1つのスキルで3モジュールを超える
+3. 各サブスキルが**単独で呼び出したときも独立した価値**を持つ
 
-If only conditions 1 and 2 hold (sub-skills have no independent value), keep them merged.
+条件1と2のみが成立する場合（サブスキルに独立した価値がない）は、統合したまま維持する。
 
-### Orchestrator body rules
+### オーケストレーター本体のルール
 
-An orchestrator skill MUST:
-- Contain ONLY sub-skill invocations — no procedural steps
-- State the sequence and what each sub-skill produces
-- Pass output context between sub-skills if needed
+オーケストレータースキルは以下を**MUST**:
+- サブスキル呼び出しのみを含む — 手順ステップは不可
+- 順序と各サブスキルが生成するものを明示する
+- 必要に応じてサブスキル間で出力コンテキストを渡す
 
-An orchestrator MUST NOT:
-- Repeat the detailed steps already in sub-skills
-- Contain conditional logic (split into sub-skills instead)
+オーケストレーターは以下を**MUST NOT**:
+- サブスキルにすでにある詳細ステップを繰り返す
+- 条件ロジックを含む（代わりにサブスキルに分割）
 
-### Orchestrator template
+### オーケストレーターテンプレート
 
 ```markdown
 ## Steps
 
 Invoke sub-skills in this order:
 
-1. `/sub-skill-a` — [one-line description of what it produces]
-2. `/sub-skill-b <output-from-step-1>` — [one-line description]
-3. `/sub-skill-c` — [one-line description]
+1. `/sub-skill-a` — [生成するものを1行で説明]
+2. `/sub-skill-b <output-from-step-1>` — [1行で説明]
+3. `/sub-skill-c` — [1行で説明]
 
 Pass the output of each step as input to the next where applicable.
 ```
 
-### When NOT to use an orchestrator
+### オーケストレーターを使わないケース
 
-- Sub-skills are rarely called together → call them independently
-- One skill naturally ends with "now invoke X" → this is a **linear chain** (simpler, preferred)
+- サブスキルが一緒に呼び出されることが稀 → 独立して呼び出す
+- 一方のスキルが自然に「次にXを呼び出す」で終わる → これは**リニアチェーン**（よりシンプルで推奨）
 
 ---
 
-## Naming Convention
+## 命名規則
 
-Format: `verb-noun` or `verb-noun-qualifier` in hyphen-case.
+形式: ハイフンケースで `verb-noun` または `verb-noun-qualifier`。
 
-| Pattern | Good examples | Avoid |
+| パターン | 良い例 | 避けるべき例 |
 |---|---|---|
-| verb + object | `create-skill`, `validate-skill`, `reflect` | `skill-creator`, `reflection` |
-| verb + object + qualifier | `review-pr-security`, `format-commit-msg` | `pr-review-tool` |
-| role/enforcer (-er suffix) | `tdd-enforcer`, `lint-guard` | `test-helper`, `linting` |
+| 動詞 + 目的語 | `create-skill`, `validate-skill`, `reflect` | `skill-creator`, `reflection` |
+| 動詞 + 目的語 + 修飾語 | `review-pr-security`, `format-commit-msg` | `pr-review-tool` |
+| 役割/強制型（-er suffix） | `tdd-enforcer`, `lint-guard` | `test-helper`, `linting` |
 
-**Rule:** The name should make the trigger obvious. A user reading the name should know when to invoke the skill.
+**ルール:** 名前だけでトリガーが明白になること。名前を読んだユーザーがいつスキルを呼び出すべきかわかること。
 
 ---
 
-## Real-World Example
+## 実例
 
-**Original:** `skill-creator` — 8 workflow modules, 6 resource files.
+**元の構成:** `skill-creator` — 8ワークフローモジュール、6リソースファイル。
 
-**Problem:** Module count (8) far exceeded the 2–3 limit. Mixed two distinct purposes: creation workflow + validation/review.
+**問題:** モジュール数（8）が2〜3の上限を大幅に超えていた。2つの異なる目的が混在: 作成ワークフロー + バリデーション/レビュー。
 
-**Split applied:**
+**分割の適用:**
 
 ```
-skill-creator (8 modules)
-  ├── create-skill (Steps 1–4: 4 modules) — creation workflow
-  │     └── ends with "/validate-skill" → linear chain, no orchestrator needed
-  └── validate-skill (Steps 4.5+4.8: 3 modules) — validation workflow
-        └── can be invoked standalone for updates/reviews
+skill-creator (8モジュール)
+  ├── create-skill (ステップ1〜4: 4モジュール) — 作成ワークフロー
+  │     └── "/validate-skill"で終わる → リニアチェーン、オーケストレーター不要
+  └── validate-skill (ステップ4.5+4.8: 3モジュール) — バリデーションワークフロー
+        └── 更新/レビュー時に単独で呼び出し可能
 ```
 
-**Why no orchestrator?** `create-skill` always ends by calling `validate-skill`, but `validate-skill` has independent value. A linear chain (one skill calls the next at the end) is simpler than a dedicated orchestrator.
+**なぜオーケストレーターを使わないか？** `create-skill` は常に最後に `validate-skill` を呼び出すが、`validate-skill` は独立した価値を持つ。リニアチェーン（一方のスキルが最後に次を呼び出す）は専用オーケストレーターより単純。
 
-**Result:** Each skill now has a single, expressible goal and stays within the 2–3 module target.
+**結果:** 各スキルが単一の表現可能な目標を持ち、2〜3モジュールの目標内に収まった。

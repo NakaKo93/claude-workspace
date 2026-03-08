@@ -1,55 +1,55 @@
-# Implementation Conventions
+# 実装規約
 
-Rules applied across all projects, regardless of language or technology.
-
----
-
-## Rule 1: File name must match content
-
-A file's name must accurately describe what it does or contains.
-The implementation inside the file must match what the name implies.
-
-Examples:
-- A file named `no-compound-bash.sh` must not itself use `&&`, `||`, or `;`
-- A file named `block-dangerous.sh` must only block dangerous commands
-- A config file named `prettier.config.js` must only configure Prettier
-
-When you find a mismatch during implementation, fix the name or the content — do not leave them inconsistent.
+言語やテクノロジーを問わず、すべてのプロジェクトで適用するルール。
 
 ---
 
-## Rule 2: Read before Edit — parallel edit pre-check
+## ルール1: ファイル名はコンテンツと一致させる
 
-Before issuing any Edit tool calls, every target file must have been Read in the current session.
+ファイルの名前は、そのファイルが何をするか・何を含むかを正確に表現しなければならない。
+ファイル内の実装は、名前が示す内容と一致しなければならない。
 
-**Procedure (mandatory order):**
-1. Identify all files that will be edited.
-2. Check which ones have NOT been Read in the current session.
-3. Issue Read calls for all unread files. Reads can be parallelized.
-4. Wait for all reads to complete.
-5. Only then issue Edit calls (can also be parallelized).
+例:
+- `no-compound-bash.sh` という名前のファイルは、それ自身で `&&`、`||`、`;` を使ってはいけない
+- `block-dangerous.sh` という名前のファイルは、危険なコマンドのみをブロックしなければならない
+- `prettier.config.js` という名前の設定ファイルは、Prettierの設定のみを含まなければならない
 
-**Never** send an Edit and a Read for the same file in the same message —
-the Edit will fail with "File has not been read yet. Read it first before writing to it."
-
-**Common failure pattern to avoid:**
-Announcing "I will edit N files in parallel" and sending Edit calls for files that include
-any unread targets. The result is partial failure: some edits succeed, others fail,
-and recovery reads + re-edits are required.
+実装中に不一致を発見した場合は、名前またはコンテンツを修正する — 不一致のままにしない。
 
 ---
 
-## Rule 3: Use post-edit content for subsequent edits in the same session
+## ルール2: Editの前にRead — 並列編集の事前確認
 
-If a file has already been edited in the current session, any further Edit on that file
-must use the current (post-edit) content as `old_string`. Never reuse the pre-edit
-`old_string` after the file has changed.
+Editツールの呼び出しを発行する前に、対象のすべてのファイルが現在のセッションでReadされていなければならない。
 
-**Procedure:**
-1. After editing a file, if another edit is needed on the same file, Read it first.
-2. Use the content returned by that Read as the basis for `old_string`.
+**手順（必須の順序）:**
+1. 編集するすべてのファイルを特定する。
+2. 現在のセッションでReadされていないファイルを確認する。
+3. 未読のすべてのファイルに対してRead呼び出しを発行する。Readは並列化できる。
+4. すべてのReadが完了するまで待つ。
+5. その後にのみEditを発行する（こちらも並列化できる）。
 
-**Common failure pattern to avoid:**
-Making a first Edit, then reading the file to verify, then issuing a second Edit
-using the original pre-edit `old_string`. Since the first Edit already changed that
-text, the second Edit fails with "old_string not found in file".
+同じファイルに対してEditとReadを同じメッセージで送ってはいけない —
+Editは "File has not been read yet. Read it first before writing to it." というエラーで失敗する。
+
+**避けるべき典型的な失敗パターン:**
+「N個のファイルを並列で編集する」と宣言して、未読のファイルを含むEdit呼び出しを送信する。
+結果として部分的な失敗が発生: いくつかのEditは成功し、他は失敗し、
+回復のためのReadと再Editが必要になる。
+
+---
+
+## ルール3: 同一セッション内での後続のEditには、編集後のコンテンツを使用する
+
+現在のセッションですでにファイルを編集した場合、そのファイルへのさらなるEditでは
+現在（編集後）のコンテンツを `old_string` として使わなければならない。
+ファイルが変更された後に、編集前の `old_string` を再利用してはいけない。
+
+**手順:**
+1. ファイルを編集した後、同じファイルへの別のEditが必要な場合は、まずReadする。
+2. そのReadが返したコンテンツを `old_string` の基礎として使用する。
+
+**避けるべき典型的な失敗パターン:**
+最初のEditを行い、次にファイルをReadして確認し、その後に元の編集前の `old_string` を使って
+2番目のEditを発行する。最初のEditですでにそのテキストが変更されているため、
+2番目のEditは "old_string not found in file" というエラーで失敗する。

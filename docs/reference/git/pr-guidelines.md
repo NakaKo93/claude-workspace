@@ -1,18 +1,18 @@
-# PR Writing Guidelines
+# PRの書き方ガイドライン
 
-## Table of Contents
+## 目次
 
-- [PR Body Template](#pr-body-template)
-- [Required vs Conditional Fields](#required-vs-conditional-fields)
-- [Writing Rules](#writing-rules)
-- [Anti-Patterns](#anti-patterns)
-- [PR Size Guidelines](#pr-size-guidelines)
+- [PR本文テンプレート](#pr本文テンプレート)
+- [必須項目と条件付き項目](#必須項目と条件付き項目)
+- [記述ルール](#記述ルール)
+- [アンチパターン](#アンチパターン)
+- [PRサイズのガイドライン](#prサイズのガイドライン)
 
 ---
 
-## PR Body Template
+## PR本文テンプレート
 
-All PR body content must be written in Japanese. Section headings are fixed Japanese labels — do not translate them to English.
+PR本文はすべて日本語で記述する。セクション見出しは固定の日本語ラベルを使用する。
 
 ```markdown
 ## 一行サマリ
@@ -52,102 +52,102 @@ All PR body content must be written in Japanese. Section headings are fixed Japa
 
 ---
 
-## Required vs Conditional Fields
+## 必須項目と条件付き項目
 
-### Always Required
+### 常に必須
 
-| Section | Purpose |
+| セクション | 目的 |
 |---|---|
-| 一行サマリ | One-line description; must be self-contained and meaningful without the body |
-| 背景 | Context: why this change was necessary |
-| 変更内容 | What was changed (bullet list) |
-| 動作確認 | How the reviewer can confirm correctness |
-| レビュー観点 | What the author wants feedback on, and what kind |
-| Related Issue | Link to related issues (`Closes #N` for auto-close) |
+| 一行サマリ | 1行の説明。本文なしでも自己完結して意味が伝わること |
+| 背景 | コンテキスト: なぜこの変更が必要だったか |
+| 変更内容 | 何を変えたか（箇条書き） |
+| 動作確認 | レビュアーが正しさを確認できる方法 |
+| レビュー観点 | 著者がどこに、どの程度のフィードバックを求めているか |
+| 関連Issue | 関連Issueへのリンク（自動クローズの場合は `Closes #N`） |
 
-### Conditional Required
+### 条件付き必須
 
-| Condition | Required section |
+| 条件 | 必須セクション |
 |---|---|
-| UI changes present | スクリーンショット (Before / After) |
-| Large diff / multi-file / structural change | Review order guide in 動作確認 |
-| Security-related change | Confirm dependency scan / security check status in 備考 |
-| WIP / Draft PR | State clearly in title or body; specify what feedback is needed and when |
+| UIの変更がある | スクリーンショット（Before / After） |
+| 差分が大きい / 複数ファイル / 構造的な変更 | 動作確認内にレビュー順序ガイドを追加 |
+| セキュリティ関連の変更 | 備考に依存関係スキャン/セキュリティチェックの状況を記載 |
+| WIP / ドラフトPR | タイトルまたは本文で明示。どんなフィードバックをいつ欲しいか明記 |
 
 ---
 
-## Writing Rules
+## 記述ルール
 
-All body content must be written in Japanese. Section headings must use the fixed Japanese labels from the template.
+PR本文はすべて日本語で記述する。セクション見出しはテンプレートの固定の日本語ラベルを使用する。
 
 ### 一行サマリ
 
-- Must be short and self-contained — readers should understand the intent from the summary alone without reading the full body
-- Use verb-final form in Japanese (e.g., 「〇〇を修正する」「〇〇を追加する」)
+- 短く自己完結すること — レビュアーが本文全体を読まなくても意図が伝わること
+- 日本語の文末形式を使用（例: 「〇〇を修正する」「〇〇を追加する」）
 
 ### 背景
 
-- Explain the problem, not just the solution
-- Include: user request / incident context / technical debt / spec change
-- Link to related specs, design docs, or discussion threads
+- 解決策だけでなく問題を説明する
+- 含めるべき内容: ユーザー要望 / インシデントの経緯 / 技術的負債 / 仕様変更
+- 関連する仕様書・設計書・議論スレッドへのリンクを含める
 
 ### 変更内容
 
-- Use bullet points; keep each point concise
-- Include "what was NOT changed" if the scope might be misread
+- 箇条書きを使用し、各項目を簡潔にまとめる
+- スコープが誤解される可能性がある場合は「やっていないこと」も含める
 
 ### 影響範囲・リスク
 
-- List all affected surfaces: screens, APIs, DB, auth, billing, batch jobs, etc.
-- State backward compatibility explicitly (breaking change or not)
-- Mention rollback difficulty if non-trivial
+- 影響するすべての対象を列挙する: 画面・API・DB・認証・課金・バッチなど
+- 後方互換性を明示する（破壊的変更かどうか）
+- ロールバックが容易でない場合はその難易度に言及する
 
 ### レビュー観点
 
-- Tell the reviewer WHERE to focus and HOW DEEPLY to review
-- Acceptable feedback types: ざっと確認 / 深め / 設計議論 / 文言チェック
-- Mention uncertain areas or alternatives considered to invite discussion
+- レビュアーに「どこを」「どの深さで」レビューするかを伝える
+- 許容されるフィードバックの種類: ざっと確認 / 深め / 設計議論 / 文言チェック
+- 不確かな箇所や検討した代替案を記載して議論を促す
 
 ### 動作確認
 
-- Provide commands or steps the reviewer can actually run
-- Include expected output or screenshots of the result
-- For large PRs, add a review order guide (e.g., 「まず X.ts を読み、次に Y.ts へ」)
+- レビュアーが実際に実行できるコマンドまたは手順を提供する
+- 期待される出力や結果のスクリーンショットを含める
+- 大きなPRの場合はレビュー順序ガイドを追加する（例: 「まず X.ts を読み、次に Y.ts へ」）
 
 ---
 
-## Anti-Patterns
+## アンチパターン
 
-| Anti-pattern | Problem | Fix |
+| アンチパターン | 問題点 | 修正方法 |
 |---|---|---|
-| No background | Reviewer cannot judge if the change is necessary | Add "why" before "what" |
-| List of actions only | No context for the change | Add purpose and motivation |
-| Vague verification | Reviewer cannot confirm correctness | Add concrete commands and expected results |
-| Unclear impact scope | Hidden risk | Enumerate affected surfaces |
-| Giant PR with no guide | Slow, error-prone review | Add review order guide; split if possible |
+| 背景なし | レビュアーが変更の必要性を判断できない | 「何を」の前に「なぜ」を追加する |
+| 行動の列挙のみ | 変更のコンテキストがない | 目的と動機を追加する |
+| 曖昧な動作確認 | レビュアーが正しさを確認できない | 具体的なコマンドと期待する結果を追加する |
+| 影響範囲が不明確 | 隠れたリスクがある | 影響する対象を列挙する |
+| ガイドなしの巨大PR | 遅く、エラーが起きやすいレビュー | レビュー順序ガイドを追加するか、可能なら分割する |
 
 ---
 
-## PR Size Guidelines
+## PRサイズのガイドライン
 
-Based on SmartBear/Cisco research:
+SmartBear/Ciscoの調査に基づく:
 
-| LOC range | Guidance |
+| 行数の範囲 | ガイダンス |
 |---|---|
-| < 200 LOC | Ideal; full review without fatigue |
-| 200–400 LOC | Acceptable upper limit; defect detection stays high |
-| > 400 LOC | Consider splitting; if not possible, add a detailed review order guide |
+| 200行未満 | 理想的。疲れなく完全なレビューができる |
+| 200〜400行 | 許容できる上限。欠陥検出率は高いまま |
+| 400行超 | 分割を検討する。不可能な場合は詳細なレビュー順序ガイドを追加する |
 
-**Splitting strategies (Google-recommended):**
+**分割戦略（Google推奨）:**
 
-- Stack dependent changes (PR A merged before PR B is raised)
-- Split by file or layer (e.g., DB layer / service layer / controller)
-- Separate "preparatory refactor" from "functional change"
+- 依存する変更をスタックする（PR AをマージしてからPR Bを作成）
+- ファイルまたはレイヤーで分割する（例: DBレイヤー / サービスレイヤー / コントローラー）
+- 「準備的なリファクタリング」と「機能的な変更」を分離する
 
-**Allowed exceptions to large PRs:**
+**大きなPRの許容される例外:**
 
-- Machine-generated bulk changes (e.g., lint auto-fix, rename)
-- Emergency hotfixes
-- Tightly coupled changes that genuinely cannot be split
+- 機械生成の一括変更（例: lint自動修正、リネーム）
+- 緊急のホットフィックス
+- 真に分割できない密結合した変更
 
-When an exception applies, the "How to Verify" review order guide becomes mandatory.
+例外が適用される場合、「動作確認」のレビュー順序ガイドは必須となる。

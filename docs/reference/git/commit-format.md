@@ -1,60 +1,60 @@
-# Conventional Commit Format Reference
+# Conventional Commitフォーマットリファレンス
 
-## Format
+## フォーマット
 
 ```
 <type>(<scope>): <subject>
 ```
 
-- All in **English**
-- `<scope>` is optional
+- コミットメッセージはすべて**英語**で記述する
+- `<scope>` は省略可能
 
 ## type
 
-| Type         | Description                                  |
+| タイプ | 説明 |
 |---|---|
-| `feat`       | Addition of a new feature                    |
-| `fix`        | Bug fix                                      |
-| `docs`       | Documentation-only changes                   |
-| `style`      | Non-behavioral formatting/style changes      |
-| `refactor`   | Internal code change without behavior change |
-| `perf`       | Performance improvement                      |
-| `test`       | Tests added or fixed                         |
-| `chore`      | Build, tooling, or dependency changes        |
+| `feat` | 新機能の追加 |
+| `fix` | バグ修正 |
+| `docs` | ドキュメントのみの変更 |
+| `style` | 動作に影響しないフォーマット/スタイルの変更 |
+| `refactor` | 動作変更を伴わない内部コードの変更 |
+| `perf` | パフォーマンス改善 |
+| `test` | テストの追加または修正 |
+| `chore` | ビルド・ツール・依存関係の変更 |
 
 ## scope
 
-- Use the **module or component name**, not the filename (omit the file extension)
-- When multiple files belong to the same module, use that module name as a single scope
-  - e.g. `auth.py` + `auth_utils.py` → scope is `auth`
-- Use a directory name if changes span multiple files in one directory
-- Omit for broad changes that span the whole codebase
+- ファイル名ではなく**モジュールまたはコンポーネント名**を使用する（拡張子は省略）
+- 同じモジュールに属する複数ファイルは、そのモジュール名を単一のスコープとして使用する
+  - 例: `auth.py` + `auth_utils.py` → スコープは `auth`
+- 1つのディレクトリ内の複数ファイルにまたがる場合はディレクトリ名を使用する
+- コードベース全体にまたがる広範な変更では省略する
 
 ## subject
 
-- Imperative mood (e.g. `correct redirect handling`, not `corrected` or `corrects`)
-- Aim for at most ~30 characters
-- Capitalize only the first word
-- No trailing period
+- 命令形（例: `correct redirect handling`。`corrected` や `corrects` は不可）
+- 最大30文字程度を目安にする
+- 先頭の単語のみ大文字にする
+- 末尾にピリオドを付けない
 
-**If the natural description exceeds 30 characters, shorten using these patterns:**
+**30文字を超える場合は以下のパターンで短縮する:**
 
-| Technique | Before | After |
+| テクニック | 変更前 | 変更後 |
 |---|---|---|
-| Drop articles/prepositions | `fix error in payment module` | `fix payment error` |
-| Shorten verb | `implement validation logic` | `add input validation` |
-| Abstract the target | `fix null pointer exception in user service` | `fix NPE in user service` |
+| 冠詞/前置詞を省く | `fix error in payment module` | `fix payment error` |
+| 動詞を短縮 | `implement validation logic` | `add input validation` |
+| 対象を抽象化 | `fix null pointer exception in user service` | `fix NPE in user service` |
 
-## Breaking changes
+## 破壊的変更
 
-For changes that break backward compatibility, append `!` after the type (and scope):
+後方互換性を壊す変更の場合、typeの後（scopeがある場合はscopeの後）に `!` を付ける:
 
 ```
 feat!: remove legacy auth endpoint
 feat(api)!: change response format to JSON
 ```
 
-## Examples
+## 例
 
 ```
 feat(auth): add OAuth2 login support

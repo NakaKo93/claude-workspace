@@ -1,67 +1,58 @@
-# Scope and Confirmation Rules
+# スコープと確認のルール
 
-Rules for when Claude must stop and ask the user before proceeding, and how to
-determine the correct scope of any change.
-
----
-
-## 1. Stop-and-Confirm Triggers (MUST ask before proceeding)
-
-Claude must pause and ask the user when any of the following conditions apply:
-
-- **Target is ambiguous** — "which file / skill / section?" is unspecified and
-  multiple candidates exist
-- **Method/approach is ambiguous** — multiple valid approaches exist and none
-  was explicitly specified by the user
-- **Change count is ambiguous** — the request could logically apply to 1 or N
-  places; do not assume N without confirmation
-- **Request uses vague verbs without specifying what** — words like "improve",
-  "fix", "update", or "clean up" without naming the specific aspect to change
-
-Asking is always cheaper than undoing unwanted changes.
+Claudeが作業を進める前にユーザーに確認すべきタイミング、および変更の正しいスコープを判断する方法についてのルール。
 
 ---
 
-## 2. Scope Boundaries
+## 1. 確認が必要なトリガー（進める前に必ず確認する）
 
-**In scope**: only what the user explicitly named in the request.
+以下の条件のいずれかが当てはまる場合、Claudeは一時停止してユーザーに確認する:
 
-**Out of scope**: related improvements, "while we're at it" fixes, adjacent
-files not mentioned, or anything that requires inferring intent beyond what was
-stated.
+- **対象が曖昧** — 「どのファイル/スキル/セクション？」が特定されておらず、複数の候補が存在する
+- **方法/アプローチが曖昧** — 複数の有効なアプローチが存在し、ユーザーが明示的に指定していない
+- **変更件数が曖昧** — リクエストが1か所またはN箇所に論理的に適用できる。確認なしにNを前提にしない
+- **何を変えるかを指定せずに曖昧な動詞を使っている** — 「改善して」「修正して」「更新して」「整理して」といった言葉で、変更すべき具体的な観点が示されていない
 
-Specific rules:
-
-- "Add a rule to X" → change X only. Not X plus all documents that reference X.
-- "Fix this function" → fix that function. Not the surrounding code, tests,
-  or related utilities unless they were mentioned.
-- If multiple files contain similar content, confirm which to change before
-  changing all of them.
-- Do not expand scope to "related" files without explicit instruction.
+確認することは、不要な変更を元に戻すことより常にコストが低い。
 
 ---
 
-## 3. Anti-Patterns (Claude's common mistakes in this workspace)
+## 2. スコープの境界
 
-Patterns that must be actively avoided:
+**対象範囲内**: ユーザーがリクエストで明示的に指名したものだけ。
 
-| Anti-pattern | What happens | Correct behavior |
+**対象範囲外**: 関連する改善、「ついでに」の修正、言及されていない隣接ファイル、述べられた内容を超えた意図の推測が必要なもの。
+
+具体的なルール:
+
+- 「XにルールAを追加して」→ Xだけを変更する。XとXを参照するすべてのドキュメントは変更しない。
+- 「この関数を修正して」→ その関数を修正する。言及されていない限り、周囲のコード・テスト・関連ユーティリティは変更しない。
+- 複数のファイルに似た内容がある場合、すべてを変更する前にどれを変更するか確認する。
+- 明示的な指示なしに「関連する」ファイルまでスコープを拡大しない。
+
+---
+
+## 3. アンチパターン（このワークスペースでのClaudeのよくある間違い）
+
+積極的に回避すべきパターン:
+
+| アンチパターン | 何が起きるか | 正しい動作 |
 |---|---|---|
-| Scope creep | Asked to add a rule to one file; edits several related files | Edit only the named file |
-| Ambiguity → autonomy | Request is unclear; Claude fills in details and proceeds | Stop and ask what was intended |
-| Alternatives as clarification | Proposes Options A/B/C instead of asking what the user wants | Ask a direct question about the intended approach |
-| "While we're at it" changes | Adds unrequested improvements alongside the actual task | Do exactly what was asked, nothing more |
-| Count assumption | Assumes "update all occurrences" when only one was implied | Confirm whether the change should apply to one or all |
+| スコープクリープ | 1ファイルにルールを追加するよう頼まれたのに、複数の関連ファイルを編集する | 指定されたファイルだけを編集する |
+| 曖昧さ → 自律 | リクエストが不明確なのにClaudeが詳細を補完して進める | 何を意図しているか直接確認する |
+| 代替案を確認の代わりに提示 | 「どうしたいですか？」と聞く代わりにオプションA/B/Cを提案する | 意図するアプローチについて直接質問する |
+| 「ついでに」の変更 | 実際のタスクとともに、求められていない改善を追加する | 頼まれたことだけを、それ以上でも以下でもなく実行する |
+| 件数の仮定 | 1件だけを意味しているのに「すべての箇所を更新」と解釈する | 変更を1箇所に適用するか全箇所に適用するか確認する |
 
 ---
 
-## 4. When It Is OK to Proceed Without Confirming
+## 4. 確認なしに進めてよいケース
 
-Claude may proceed immediately when **all** of the following are true:
+以下の**すべて**が真のときのみ、Claudeは即座に進めてよい:
 
-1. The target is explicitly named (specific file, section, or function)
-2. The method or approach is explicitly stated or has only one reasonable interpretation
-3. The scope is unambiguous (one location, clearly bounded)
-4. The change is reversible (no destructive operations, no shared-state side effects)
+1. 対象が明示されている（特定のファイル、セクション、または関数）
+2. 方法またはアプローチが明示されている、または合理的な解釈が1つしかない
+3. スコープが曖昧でない（1か所、明確に境界が定まっている）
+4. 変更が可逆である（破壊的操作なし、共有状態への副作用なし）
 
-If any of these conditions is not met, default to asking.
+これらの条件のいずれかが満たされない場合、デフォルトで確認する。

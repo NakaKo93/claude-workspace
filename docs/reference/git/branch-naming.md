@@ -1,27 +1,27 @@
-# Branch Naming Format
+# ブランチ命名フォーマット
 
-Based on GitHub Flow / Feature Branch Workflow principles, aligned with Conventional Commits vocabulary.
+GitHub Flow / Feature Branch Workflowの原則に基づき、Conventional Commitsの語彙に合わせた命名規則。
 
-## Table of Contents
+## 目次
 
-- [Format](#format)
+- [フォーマット](#フォーマット)
 - [type](#type)
 - [scope](#scope)
 - [short-slug](#short-slug)
-- [Allowed Characters](#allowed-characters)
-- [Examples](#examples)
+- [使用可能な文字](#使用可能な文字)
+- [例](#例)
 
 ---
 
-## Format
+## フォーマット
 
-**Full form (recommended when scope is clear):**
+**完全形（スコープが明確な場合に推奨）:**
 
 ```
 <type>/<scope>/<short-slug>
 ```
 
-**Short form (when scope is broad or spans the whole codebase):**
+**短縮形（スコープが広い、またはコードベース全体にまたがる場合）:**
 
 ```
 <type>/<short-slug>
@@ -31,57 +31,57 @@ Based on GitHub Flow / Feature Branch Workflow principles, aligned with Conventi
 
 ## type
 
-Reuse the same types as Conventional Commits to keep team vocabulary unified:
+チームの語彙を統一するため、Conventional Commitsと同じタイプを再利用する:
 
-| Type | When to use |
+| タイプ | 使用タイミング |
 |---|---|
-| `feat` | Adding a new feature |
-| `fix` | Bug fix |
-| `docs` | Documentation-only changes |
-| `style` | Non-behavioral formatting/style changes |
-| `refactor` | Internal code change without behavior change |
-| `perf` | Performance improvement |
-| `test` | Tests added or fixed |
-| `chore` | Build, tooling, or dependency changes |
+| `feat` | 新機能の追加 |
+| `fix` | バグ修正 |
+| `docs` | ドキュメントのみの変更 |
+| `style` | 動作に影響しないフォーマット/スタイルの変更 |
+| `refactor` | 動作変更を伴わない内部コードの変更 |
+| `perf` | パフォーマンス改善 |
+| `test` | テストの追加または修正 |
+| `chore` | ビルド・ツール・依存関係の変更 |
 
 ---
 
 ## scope
 
-- Use the module or component name (same convention as commit scope)
-- Omit when the change spans the whole codebase or has no clear module boundary
-- Use a directory name if changes span multiple files in one directory
+- モジュールまたはコンポーネント名を使用する（コミットのスコープと同じ規則）
+- 変更がコードベース全体にまたがる、または明確なモジュール境界がない場合は省略する
+- 1つのディレクトリ内の複数ファイルにまたがる場合はディレクトリ名を使用する
 
 ---
 
 ## short-slug
 
-- kebab-case, lowercase only
-- Short and descriptive — aim for 2–5 words
-- Imperative phrasing preferred (e.g. `add-oauth2-login`, not `oauth2-login-added`)
-- Avoid generic slugs like `fix-bug` or `update-code`
+- ケバブケース、小文字のみ
+- 短くて説明的 — 2〜5語を目安にする
+- 命令形が推奨（例: `add-oauth2-login`、`oauth2-login-added` ではない）
+- `fix-bug` や `update-code` のような汎用的なスラッグは避ける
 
-**If the natural description is too long, shorten with these patterns:**
+**説明が長すぎる場合は以下のパターンで短縮する:**
 
-| Technique | Before | After |
+| テクニック | 変更前 | 変更後 |
 |---|---|---|
-| Drop articles | `fix-error-in-payment-module` | `fix-payment-error` |
-| Abstract the target | `fix-null-pointer-in-user-service` | `fix-npe-user-service` |
-| Shorten verb | `implement-validation-logic` | `add-input-validation` |
+| 冠詞を省く | `fix-error-in-payment-module` | `fix-payment-error` |
+| 対象を抽象化 | `fix-null-pointer-in-user-service` | `fix-npe-user-service` |
+| 動詞を短縮 | `implement-validation-logic` | `add-input-validation` |
 
 ---
 
-## Allowed Characters
+## 使用可能な文字
 
-| Allowed | `a-z`, `0-9`, `-` (hyphen), `/` (slash for hierarchy) |
+| 使用可能 | `a-z`, `0-9`, `-`（ハイフン）, `/`（階層用スラッシュ） |
 |---|---|
-| Forbidden | Spaces, `~`, `^`, `:`, `?`, `*`, `[`, `\`, `..`, `@{`, leading/trailing `/`, consecutive `//` |
+| 禁止 | スペース、`~`、`^`、`:`、`?`、`*`、`[`、`\`、`..`、`@{`、先頭/末尾の `/`、連続した `//` |
 
-These constraints come from Git's reference name rules (`git check-ref-format`). Sticking to `a-z0-9-/` avoids all compatibility issues.
+これらの制約はGitのリファレンス名ルール（`git check-ref-format`）に由来する。`a-z0-9-/` に限定することで互換性の問題をすべて回避できる。
 
 ---
 
-## Examples
+## 例
 
 ```
 feat/auth/add-oauth2-login

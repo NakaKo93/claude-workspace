@@ -1,12 +1,12 @@
-# Branch Lifecycle Rules
+# ブランチライフサイクルルール
 
-Rules for keeping branches short-lived and `main` clean.
+ブランチを短命に保ち、`main` をクリーンに保つためのルール。
 
-| Rule | Guideline |
+| ルール | ガイドライン |
 |---|---|
-| **Max lifespan** | Merge within 1–2 days; avoid multi-day branches |
-| **One purpose per branch** | 1 branch = 1 issue or 1 logical change. Do not mix unrelated fixes |
-| **Base branch** | Always branch from `main` (or the team's trunk) |
-| **After merge** | Delete the branch immediately |
-| **Long-running work** | Use feature flags to merge incomplete work to `main` early rather than keeping a long-lived branch |
-| **Protected branches** | `main` (and `master`) — no direct commits; changes go through PR only |
+| **最大寿命** | 1〜2日以内にマージする。複数日にわたるブランチは避ける |
+| **1ブランチ1目的** | 1ブランチ = 1課題または1論理的な変更。無関係な修正を混在させない |
+| **ベースブランチ** | 常に `main`（またはチームのトランク）からブランチを切る |
+| **マージ後** | ブランチは即座に削除する |
+| **長期作業** | 長期ブランチを維持するのではなく、フィーチャーフラグを使って未完成の作業を早めに `main` にマージする |
+| **保護されたブランチ** | `main`（および `master`）— 直接コミット禁止。変更はPR経由でのみ行う |
