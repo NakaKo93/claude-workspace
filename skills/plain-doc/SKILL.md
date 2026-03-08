@@ -55,6 +55,7 @@ Execute all steps in order.
         - Uses lowercase hyphen-case directory names
      d. **Ask the user to confirm the proposed path before proceeding.** Do not continue until confirmed.
         Example: "出力先を `docs/reference/claude/agents/design-requirements-analyst/overview.md` にしようと思いますが、よいですか？"
+        **IMPORTANT:** `docs/tmp/` is NOT a valid output destination. It is a staging area for raw source material only. Always output to `docs/reference/<category>/`.
 
 3. Once the output path is confirmed, state it in one line and proceed.
 

@@ -49,6 +49,29 @@ Avoid asking too many questions at once. Start with the most important and follo
 
 **If splitting is needed:** define each sub-skill independently first, then decide if an orchestrator skill is needed. Read [references/design-rules.md](references/design-rules.md) for the full split/orchestrator decision tree and orchestrator template.
 
+**Content classification — decide before writing anything:**
+
+| Question | → Location |
+|---|---|
+| Will a human read and agree on this as a shared standard or policy? | `docs/reference/` (link from SKILL.md) |
+| Is this needed only when Claude executes this skill? | `references/<topic>.md` |
+| Is this a few-shot example, output template, or I/O schema? | `references/<topic>.md` |
+| Does this define shared naming, design, or review rules? | `docs/reference/` (link from SKILL.md) |
+
+Do NOT put skill-execution content (examples, templates, decision tables) in `docs/`. Do NOT copy `docs/` content into `references/` — link instead.
+
+**References per step — enumerate before writing:**
+
+For each workflow step, explicitly list what reference file it needs:
+
+```
+Step 1: <topic> → references/<file>.md  (or "none")
+Step 2: <topic> → references/<file>.md
+Step 3: <topic> → references/<file>.md
+```
+
+Missing a reference file here means the step will lack supporting detail. Create all planned reference files in Step 4 before writing SKILL.md.
+
 **Reusable resources:** for each concrete example, identify resources that eliminate repetitive work:
 
 | Repeated work | Resource to create |
@@ -57,7 +80,7 @@ Avoid asking too many questions at once. Start with the most important and follo
 | Same template used every run | `assets/<template>` |
 | Same reference looked up every run | `references/<topic>.md` |
 
-Produce a list of resources to bundle before proceeding.
+Produce a complete list of docs links and reference files before proceeding.
 
 ### Step 3: Initialize the Skill
 
