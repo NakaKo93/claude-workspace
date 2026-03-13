@@ -1,4 +1,4 @@
-# validate-skill
+# ts-val-orchestrate
 
 **何をするか**: スキルディレクトリの構造・品質を検証してセルフレビューを行う。
 スキルの種類（Knowledge / Task）を判定し、対応するサブスキルに委譲するオーケストレーター。
@@ -19,9 +19,9 @@
 | 構成 | 判定 | 委譲先 |
 |---|---|---|
 | `scripts/` なし | Knowledge Skill | `validate-knowledge-skill` |
-| `scripts/` あり | Task Skill | `validate-task-skill` |
+| `scripts/` あり | Task Skill | `ts-val-task-skill` |
 
 ## 関連スキル
 
 - [validate-knowledge-skill](validate-knowledge-skill.md) — Knowledge Skill のレビュー
-- [validate-task-skill](validate-task-skill.md) — Task Skill のレビュー
+- [ts-val-task-skill](ts-val-task-skill.md) — Task Skill のレビュー

@@ -1,9 +1,9 @@
 # validate-knowledge-skill
 
 **何をするか**: Knowledge Skill ディレクトリの構造品質を検証してセルフレビューを行う。
-`validate-skill` オーケストレーターから Knowledge Skill が判定されたときに呼ばれる。
+`ts-val-orchestrate` オーケストレーターから Knowledge Skill が判定されたときに呼ばれる。
 
-**起動**: `validate-skill` 経由（ユーザーが直接呼ぶ必要はない）
+**起動**: `ts-val-orchestrate` 経由（ユーザーが直接呼ぶ必要はない）
 
 ---
 
@@ -16,5 +16,5 @@
 
 ## 関連スキル
 
-- [validate-skill](validate-skill.md) — 種類判定のオーケストレーター
-- [create-knowledge-skill](create-knowledge-skill.md) — 作成
+- [ts-val-orchestrate](ts-val-orchestrate.md) — 種類判定のオーケストレーター
+- [ts-cksk-orchestrate](ts-cksk-orchestrate.md) — 作成

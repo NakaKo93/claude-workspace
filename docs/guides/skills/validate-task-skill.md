@@ -1,9 +1,9 @@
-# validate-task-skill
+# ts-val-task-skill
 
 **何をするか**: Task Skill ディレクトリの構造品質を検証してセルフレビューを行う。
-`validate-skill` オーケストレーターから Task Skill が判定されたときに呼ばれる。
+`ts-val-orchestrate` オーケストレーターから Task Skill が判定されたときに呼ばれる。
 
-**起動**: `validate-skill` 経由（ユーザーが直接呼ぶ必要はない）
+**起動**: `ts-val-orchestrate` 経由（ユーザーが直接呼ぶ必要はない）
 
 ---
 
@@ -24,5 +24,5 @@
 
 ## 関連スキル
 
-- [validate-skill](validate-skill.md) — 種類判定のオーケストレーター
+- [ts-val-orchestrate](ts-val-orchestrate.md) — 種類判定のオーケストレーター
 - [create-task-skill](create-task-skill.md) — 作成
