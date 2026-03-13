@@ -42,3 +42,6 @@ cache/
 
 # Misc
 bash.exe.stackdump
+
+# Local secrets (never commit)
+.env
