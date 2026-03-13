@@ -9,15 +9,17 @@ DANGEROUS_PATTERNS=(
   "rm -rf \."
   "terraform apply --auto-approve"
   "terraform destroy --auto-approve"
-  "git push.*--force.*main"
-  "git push.*--force.*master"
+  "git push.*--force"
+  "git push.*-f "
+  "git push.* main( |$)"
+  "git push.* master( |$)"
   "DROP TABLE"
   "DROP DATABASE"
 )
 
 for pattern in "${DANGEROUS_PATTERNS[@]}"; do
   if echo "$COMMAND" | grep -qiE "$pattern"; then
-    echo "危険なコマンドがブロックしました: $pattern" >&2
+    echo "{\"decision\": \"block\", \"reason\": \"危険なコマンドをブロックしました: $pattern\"}"
     exit 2
   fi
 done

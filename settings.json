@@ -6,21 +6,100 @@
       "Read(.env)",
       "Read(.env.*)",
       "Write(.env*)",
+      "Edit(.env*)",
+      "MultiEdit(.env*)",
+      "Update(.env*)",
 
       "Read(**/secrets/**)",
       "Write(**/secrets/**)",
+      "Edit(**/secrets/**)",
+      "MultiEdit(**/secrets/**)",
+      "Update(**/secrets/**)",
 
       "Read(**/*token*)",
+      "Write(**/*token*)",
+      "Edit(**/*token*)",
+      "MultiEdit(**/*token*)",
+      "Update(**/*token*)",
       "Read(**/*secret*)",
+      "Write(**/*secret*)",
+      "Edit(**/*secret*)",
+      "MultiEdit(**/*secret*)",
+      "Update(**/*secret*)",
       "Read(**/*apikey*)",
+      "Write(**/*apikey*)",
+      "Edit(**/*apikey*)",
+      "MultiEdit(**/*apikey*)",
+      "Update(**/*apikey*)",
       "Read(**/*api_key*)",
+      "Write(**/*api_key*)",
+      "Edit(**/*api_key*)",
+      "MultiEdit(**/*api_key*)",
+      "Update(**/*api_key*)",
 
       "Read(**/*.key)",
+      "Write(**/*.key)",
+      "Edit(**/*.key)",
+      "MultiEdit(**/*.key)",
+      "Update(**/*.key)",
       "Read(**/*.pem)",
+      "Write(**/*.pem)",
+      "Edit(**/*.pem)",
+      "MultiEdit(**/*.pem)",
+      "Update(**/*.pem)",
       "Read(**/*.p12)",
+      "Write(**/*.p12)",
+      "Edit(**/*.p12)",
+      "MultiEdit(**/*.p12)",
+      "Update(**/*.p12)",
       "Read(**/*.pfx)",
+      "Write(**/*.pfx)",
+      "Edit(**/*.pfx)",
+      "MultiEdit(**/*.pfx)",
+      "Update(**/*.pfx)",
       "Read(**/id_rsa)",
+      "Write(**/id_rsa)",
+      "Edit(**/id_rsa)",
+      "MultiEdit(**/id_rsa)",
+      "Update(**/id_rsa)",
       "Read(**/id_ed25519)",
+      "Write(**/id_ed25519)",
+      "Edit(**/id_ed25519)",
+      "MultiEdit(**/id_ed25519)",
+      "Update(**/id_ed25519)",
+      "Read(**/id_ecdsa)",
+      "Write(**/id_ecdsa)",
+      "Edit(**/id_ecdsa)",
+      "MultiEdit(**/id_ecdsa)",
+      "Update(**/id_ecdsa)",
+      "Read(**/id_dsa)",
+      "Write(**/id_dsa)",
+      "Edit(**/id_dsa)",
+      "MultiEdit(**/id_dsa)",
+      "Update(**/id_dsa)",
+
+      "Read(**/.ssh/**)",
+      "Write(**/.ssh/**)",
+      "Edit(**/.ssh/**)",
+      "MultiEdit(**/.ssh/**)",
+      "Update(**/.ssh/**)",
+
+      "Read(**/*.jks)",
+      "Write(**/*.jks)",
+      "Edit(**/*.jks)",
+      "MultiEdit(**/*.jks)",
+      "Update(**/*.jks)",
+      "Read(**/*.keystore)",
+      "Write(**/*.keystore)",
+      "Edit(**/*.keystore)",
+      "MultiEdit(**/*.keystore)",
+      "Update(**/*.keystore)",
+
+      "Read(**/*service-account*)",
+      "Write(**/*service-account*)",
+      "Edit(**/*service-account*)",
+      "MultiEdit(**/*service-account*)",
+      "Update(**/*service-account*)",
 
       "Bash(curl:*)",
       "Bash(wget:*)",
@@ -31,7 +110,11 @@
       "Bash(yarn:*)",
       "Bash(pnpm:*)",
 
-      "Bash(git push -f *)"
+      "Bash(git push -f *)",
+      "Bash(git push --force*)",
+      "Bash(git push --force-with-lease*)",
+      "Bash(git push * main)",
+      "Bash(git push * master)"
     ],
     "ask": [
       "Bash(rm:*)",
@@ -39,15 +122,11 @@
 
       "Bash(docker:*)",
 
-      "Bash(git push:*)",
       "Bash(git rebase:*)",
       "Bash(git reset:*)",
       "Bash(git clean:*)"
     ],
     "allow": [
-      "Write(*)",
-      "Edit(*)",
-
       "Bash(ls:*)",
       "Bash(dir:*)",
       "Bash(cd:*)",
@@ -75,23 +154,34 @@
       "Bash(git branch:*)",
       "Bash(git checkout:*)",
       "Bash(git stash:*)",
+      "Bash(git push:*)",
 
-      "Skill(create-skill)",
-      "Skill(validate-skill)",
-      "Skill(create-knowledge-skill)",
-      "Skill(validate-knowledge-skill)",
-      "Skill(create-task-skill)",
-      "Skill(validate-task-skill)",
-      "Skill(commit-workflow)",
-      "Skill(git-branch)",
-      "Skill(git-commit)",
-      "Skill(sync-branch)",
-      "Skill(reflect)",
-      "Skill(gh-pr)",
-      "Skill(plain-doc)",
-      "Skill(clarification-rules)",
-      "Skill(implementation-conventions)",
-      "Skill(response-conventions)"
+      "Skill(kn-clarification-rules)",
+      "Skill(kn-implementation-conventions)",
+      "Skill(kn-response-conventions)",
+      "Skill(ts-analyze-changes)",
+      "Skill(ts-cksk-analyze)",
+      "Skill(ts-cksk-build)",
+      "Skill(ts-cksk-orchestrate)",
+      "Skill(ts-commit-orchestrate)",
+      "Skill(ts-gh-pr)",
+      "Skill(ts-git-branch)",
+      "Skill(ts-git-branch-commit)",
+      "Skill(ts-git-commit)",
+      "Skill(ts-rfl-analyze)",
+      "Skill(ts-rfl-apply)",
+      "Skill(ts-rfl-extract)",
+      "Skill(ts-rfl-orchestrate)",
+      "Skill(ts-sync-branch)",
+      "Skill(ts-val-orchestrate)",
+      "Skill(ts-val-subagent)",
+      "Skill(ts-val-task-skill)",
+      "Skill(ts-wfsk-build-skill)",
+      "Skill(ts-wfsk-build-subagent)",
+      "Skill(ts-wfsk-design)",
+      "Skill(ts-wfsk-orchestrate)",
+      "Skill(ts-wfsk-research)",
+      "Skill(ts-wfsk-review)"
     ]
   },
   "enabledMcpjsonServers": [],
@@ -109,8 +199,8 @@
   },
   "hooks": {
     "PostToolUse": [
-        {
-        "matcher": "Write|Edit",
+      {
+        "matcher": "Read|Write|Edit|Update|MultiEdit|Delete",
         "hooks": [
             {
               "type": "command",
@@ -121,7 +211,7 @@
               "command": "grep -n 'console.log' $CLAUDE_FILE_PATH && echo '⚠️ console.log found' || true"
             }
         ]
-        }
+      }
     ],
     "PreToolUse": [
       {
@@ -129,16 +219,20 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/block-dangerous.sh\""
+            "command": "bash \"$HOME/.claude/hooks/block-compound-bash.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/block-dangerous.sh\""
           }
         ]
       },
       {
-        "matcher": "Write|Edit",
+        "matcher": "Read|Write|Edit|Update|MultiEdit|Delete",
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/protect-files.sh\""
+            "command": "bash \"$HOME/.claude/hooks/protect-files.sh\""
           }
         ]
       }
@@ -163,7 +257,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/play_sound.sh waiting"
+            "command": "$HOME/.claude/hooks/play_sound.sh waiting"
           }
         ]
       }
@@ -178,7 +272,7 @@
           },
           {
             "type": "command",
-            "command": "~/.claude/hooks/play_sound.sh complete"
+            "command": "$HOME/.claude/hooks/play_sound.sh complete"
           }
         ]
       }
