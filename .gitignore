@@ -36,5 +36,9 @@ tmp/
 backups/
 cache/
 
+# Secrets
+.env
+.env.*
+
 # Misc
 bash.exe.stackdump
