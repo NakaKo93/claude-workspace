@@ -1,4 +1,4 @@
-# create-knowledge-skill
+# ts-cksk-orchestrate
 
 **何をするか**: Claude Code の Knowledge Skill（スクリプトなし・参照専用スキル）を新規作成する。
 `create-skill` オーケストレーターから Knowledge Skill が選択されたときに呼ばれる。

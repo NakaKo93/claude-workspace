@@ -13,10 +13,11 @@
 
 | スキル | 概要 | 起動フレーズ |
 |---|---|---|
-| [commit-workflow](skills/commit-workflow.md) | ブランチ確認→コミット→同期の安全なコミットフロー | `コミットして` |
-| [git-commit](skills/git-commit.md) | 変更をコンベンショナルコミット形式でコミット（単体呼び出し用） | — |
-| [git-branch](skills/git-branch.md) | 規約に沿ったブランチを作成・削除 | `ブランチを切って` |
+| [ts-commit-orchestrate](skills/ts-commit-orchestrate.md) | ブランチ確認→コミット→同期の安全なコミットフロー | `コミットして` |
+| [ts-git-commit](skills/ts-git-commit.md) | 変更をコンベンショナルコミット形式でコミット（単体呼び出し用） | — |
+| [ts-git-branch](skills/ts-git-branch.md) | 規約に沿ったブランチを作成・削除 | `ブランチを切って` |
 | [gh-pr](skills/gh-pr.md) | GitHub Pull Request を作成 | `PRを作って` |
+| [ts-sync-branch](skills/ts-sync-branch.md) | 作業ブランチに main の最新をマージ | `mainを取り込んで` |
 
 ### ドキュメント・分析
 
@@ -29,12 +30,21 @@
 
 | スキル | 概要 | 起動フレーズ |
 |---|---|---|
-| [create-skill](skills/create-skill.md) | 新しいスキルを対話的に作成するオーケストレーター | `スキルを作って` |
-| [create-knowledge-skill](skills/create-knowledge-skill.md) | Knowledge Skill を作成（create-skill から呼ばれる） | —（create-skill 経由） |
-| [create-task-skill](skills/create-task-skill.md) | Task Skill を作成（create-skill から呼ばれる） | —（create-skill 経由） |
-| [validate-skill](skills/validate-skill.md) | スキルディレクトリの品質をレビュー | `スキルをレビューして` |
-| [validate-knowledge-skill](skills/validate-knowledge-skill.md) | Knowledge Skill をレビュー（validate-skill から呼ばれる） | —（validate-skill 経由） |
-| [validate-task-skill](skills/validate-task-skill.md) | Task Skill をレビュー（validate-skill から呼ばれる） | —（validate-skill 経由） |
+| [ts-cksk-orchestrate](skills/ts-cksk-orchestrate.md) | Knowledge Skill を新規作成 | `スキルを作って` |
+| [ts-val-orchestrate](skills/ts-val-orchestrate.md) | スキルディレクトリの品質をレビュー | `スキルをレビューして` |
+| [validate-knowledge-skill](skills/validate-knowledge-skill.md) | Knowledge Skill をレビュー（ts-val-orchestrate から呼ばれる） | —（ts-val-orchestrate 経由） |
+| [ts-val-task-skill](skills/ts-val-task-skill.md) | Task Skill をレビュー（ts-val-orchestrate から呼ばれる） | —（ts-val-orchestrate 経由） |
+
+### ワークフロー構築（wfsk）
+
+| スキル | 概要 | 起動フレーズ |
+|---|---|---|
+| [ts-wfsk-orchestrate](skills/ts-wfsk-orchestrate.md) | 要件から skill + subagent を設計・実装・レビューまで一括構築 | `ワークフローを作って` |
+| wfsk-design | 設計ドキュメント生成 | —（orchestrate 経由） |
+| wfsk-research | 既存アセット調査・再利用判定 | —（orchestrate 経由） |
+| wfsk-build-subagent | subagent ファイル作成 | —（orchestrate 経由） |
+| wfsk-build-skill | SKILL.md + references/ 作成 | —（orchestrate 経由） |
+| wfsk-review | 成果物レビュー | —（orchestrate 経由） |
 
 ### 自動参照スキル（autonomous）
 
