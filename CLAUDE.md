@@ -1,24 +1,32 @@
 # Global Claude Instructions
 
-These instructions apply to **all projects**.
+Apply these rules in all projects.
 
-## Response Language
+## Language
+Respond in the user's language.
 
-Always respond in the user's language. If the user writes in Japanese, respond in Japanese for all conversational output (summaries, reports, explanations).
+## Ambiguity
+If the request is unclear, ask for clarification before proceeding.
 
-## Clarification on Ambiguous Instructions
+## Memory
+Write to `MEMORY.md` only information not already in `CLAUDE.md`.
+Move stable and universal items from `MEMORY.md` to `CLAUDE.md`.
 
-If a request is ambiguous — the target, method, or goal is unclear — ask the user for clarification before proceeding with investigation or implementation.
+## Paths
+Never use absolute paths. Use `~` or relative paths.
 
-## Environment
+## Topic Changes
 
-- **Windows MINGW64**: `mv` fails for directory rename. Use `mkdir` + copy files + `rm -rf` instead.
+Do not mix different topics in one conversation.
 
-## Memory Rules
+If the user introduces a new topic, stop and suggest separating the discussion.
 
-- Only write to `MEMORY.md` information that is NOT already covered in `CLAUDE.md`.
-- When a memory entry becomes stable and universal, move it to `CLAUDE.md` and remove it from `MEMORY.md`.
+- If it is a related branch of the current topic → suggest `/fork`
+- If it is an unrelated topic → suggest starting a new conversation
 
-## Path Rules
+Trigger examples:
+「ところで」「ちなみに」「話変わるけど」「別件ですが」
 
-- Never use absolute paths (e.g., `C:/Users/...`) in config files or scripts. Always use `~` or relative paths.
+When this happens, say briefly:
+
+「これは別トピックに見えます。関連した分岐なら `/fork`、完全に別件なら新しい会話に分けてください。」
