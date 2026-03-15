@@ -13,38 +13,44 @@
 
 | スキル | 概要 | 起動フレーズ |
 |---|---|---|
-| [ts-commit-orchestrate](skills/ts-commit-orchestrate.md) | ブランチ確認→コミット→同期の安全なコミットフロー | `コミットして` |
-| [ts-git-commit](skills/ts-git-commit.md) | 変更をコンベンショナルコミット形式でコミット（単体呼び出し用） | — |
+| [ts-commit-orchestrate](skills/ts-commit-orchestrate.md) | 変更解析→コミット→同期の安全なコミットフロー | `コミットして` |
+| [ts-analyze-changes](skills/ts-analyze-changes.md) | 変更を解析してコミット計画 JSON を生成（読み取り専用） | —（ts-commit-orchestrate 経由） |
+| [ts-git-branch-commit](skills/ts-git-branch-commit.md) | 計画 JSON を受け取りブランチ作成・コミット実行 | —（ts-commit-orchestrate 経由） |
+| [ts-git-commit](skills/ts-git-commit.md) | 変更をコンベンショナルコミット形式でコミット（単体呼び出し用） | `コミットして` |
 | [ts-git-branch](skills/ts-git-branch.md) | 規約に沿ったブランチを作成・削除 | `ブランチを切って` |
-| [gh-pr](skills/gh-pr.md) | GitHub Pull Request を作成 | `PRを作って` |
+| [ts-gh-pr](skills/ts-gh-pr.md) | GitHub Pull Request を作成 | `PRを作って` |
 | [ts-sync-branch](skills/ts-sync-branch.md) | 作業ブランチに main の最新をマージ | `mainを取り込んで` |
 
-### ドキュメント・分析
+### セッション反省（rfl）
 
 | スキル | 概要 | 起動フレーズ |
 |---|---|---|
-| [plain-doc](skills/plain-doc.md) | ファイルを分析して平易な Markdown ドキュメントを生成 | `このファイルを分析して` |
-| [reflect](skills/reflect.md) | セッションログを解析して改善タスクリストを生成 | `反省して` |
+| [ts-rfl-orchestrate](skills/ts-rfl-orchestrate.md) | セッションログを解析して改善タスクリストを生成・適用 | `反省して` |
+| [ts-rfl-extract](skills/ts-rfl-extract.md) | JSONL から reflection_input.json を生成 | —（ts-rfl-orchestrate 経由） |
+| [ts-rfl-analyze](skills/ts-rfl-analyze.md) | イベントを分類して fixes.json を生成 | —（ts-rfl-orchestrate 経由） |
+| [ts-rfl-apply](skills/ts-rfl-apply.md) | fixes.json の修正タスクを適用 | —（ts-rfl-orchestrate 経由） |
 
 ### スキル管理
 
 | スキル | 概要 | 起動フレーズ |
 |---|---|---|
 | [ts-cksk-orchestrate](skills/ts-cksk-orchestrate.md) | Knowledge Skill を新規作成 | `スキルを作って` |
+| [ts-cksk-analyze](skills/ts-cksk-analyze.md) | ソースファイルを解析してスキル構造を設計 | —（ts-cksk-orchestrate 経由） |
+| [ts-cksk-build](skills/ts-cksk-build.md) | SKILL.md + references/ を生成 | —（ts-cksk-orchestrate 経由） |
 | [ts-val-orchestrate](skills/ts-val-orchestrate.md) | スキルディレクトリの品質をレビュー | `スキルをレビューして` |
-| [validate-knowledge-skill](skills/validate-knowledge-skill.md) | Knowledge Skill をレビュー（ts-val-orchestrate から呼ばれる） | —（ts-val-orchestrate 経由） |
-| [ts-val-task-skill](skills/ts-val-task-skill.md) | Task Skill をレビュー（ts-val-orchestrate から呼ばれる） | —（ts-val-orchestrate 経由） |
+| [ts-val-task-skill](skills/ts-val-task-skill.md) | Task Skill をレビュー | —（ts-val-orchestrate 経由） |
+| [ts-val-subagent](skills/ts-val-subagent.md) | 対応する agents/*.md をレビュー | —（ts-val-orchestrate 経由） |
 
 ### ワークフロー構築（wfsk）
 
 | スキル | 概要 | 起動フレーズ |
 |---|---|---|
 | [ts-wfsk-orchestrate](skills/ts-wfsk-orchestrate.md) | 要件から skill + subagent を設計・実装・レビューまで一括構築 | `ワークフローを作って` |
-| wfsk-design | 設計ドキュメント生成 | —（orchestrate 経由） |
-| wfsk-research | 既存アセット調査・再利用判定 | —（orchestrate 経由） |
-| wfsk-build-subagent | subagent ファイル作成 | —（orchestrate 経由） |
-| wfsk-build-skill | SKILL.md + references/ 作成 | —（orchestrate 経由） |
-| wfsk-review | 成果物レビュー | —（orchestrate 経由） |
+| ts-wfsk-design | 設計ドキュメント生成 | —（orchestrate 経由） |
+| ts-wfsk-research | 既存アセット調査・再利用判定 | —（orchestrate 経由） |
+| ts-wfsk-build-subagent | subagent ファイル作成 | —（orchestrate 経由） |
+| ts-wfsk-build-skill | SKILL.md + references/ 作成 | —（orchestrate 経由） |
+| ts-wfsk-review | 成果物レビュー | —（orchestrate 経由） |
 
 ### 自動参照スキル（autonomous）
 
@@ -52,9 +58,9 @@
 
 | スキル | 概要 | 参照タイミング |
 |---|---|---|
-| [clarification-rules](skills/clarification-rules.md) | 意図確認・スコープ判断ルール | 曖昧なリクエストや計画策定の前 |
-| [implementation-conventions](skills/implementation-conventions.md) | 実装規約（ファイル命名・ツール使用制約） | ファイル操作・実装開始の前 |
-| [response-conventions](skills/response-conventions.md) | 返答スタイル・出力フォーマット規約 | 調査結果や構造化レポートを提示する前 |
+| [kn-clarification-rules](skills/kn-clarification-rules.md) | 意図確認・スコープ判断ルール | 曖昧なリクエストや計画策定の前 |
+| [kn-implementation-conventions](skills/kn-implementation-conventions.md) | 実装規約（ファイル命名・ツール使用制約） | ファイル操作・実装開始の前 |
+| [kn-response-conventions](skills/kn-response-conventions.md) | 返答スタイル・出力フォーマット規約 | 調査結果や構造化レポートを提示する前 |
 
 ---
 
