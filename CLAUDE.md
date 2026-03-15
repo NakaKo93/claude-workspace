@@ -8,10 +8,6 @@ Respond in the user's language.
 ## Ambiguity
 If the request is unclear, ask for clarification before proceeding.
 
-## Memory
-Write to `MEMORY.md` only information not already in `CLAUDE.md`.
-Move stable and universal items from `MEMORY.md` to `CLAUDE.md`.
-
 ## Paths
 Never use absolute paths. Use `~` or relative paths.
 
