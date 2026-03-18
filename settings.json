@@ -159,30 +159,7 @@
 
       "Skill(kn-clarification-rules)",
       "Skill(kn-implementation-conventions)",
-      "Skill(kn-response-conventions)",
-      "Skill(ts-analyze-changes)",
-      "Skill(ts-cksk-analyze)",
-      "Skill(ts-cksk-build)",
-      "Skill(ts-cksk-orchestrate)",
-      "Skill(ts-commit-orchestrate)",
-      "Skill(ts-gh-pr)",
-      "Skill(ts-git-branch)",
-      "Skill(ts-git-branch-commit)",
-      "Skill(ts-git-commit)",
-      "Skill(ts-rfl-analyze)",
-      "Skill(ts-rfl-apply)",
-      "Skill(ts-rfl-extract)",
-      "Skill(ts-rfl-orchestrate)",
-      "Skill(ts-sync-branch)",
-      "Skill(ts-val-orchestrate)",
-      "Skill(ts-val-subagent)",
-      "Skill(ts-val-task-skill)",
-      "Skill(ts-wfsk-build-skill)",
-      "Skill(ts-wfsk-build-subagent)",
-      "Skill(ts-wfsk-design)",
-      "Skill(ts-wfsk-orchestrate)",
-      "Skill(ts-wfsk-research)",
-      "Skill(ts-wfsk-review)"
+      "Skill(kn-response-conventions)"
     ]
   },
   "enabledMcpjsonServers": [],
@@ -211,40 +188,6 @@
               "type": "command",
               "command": "grep -n 'console.log' $CLAUDE_FILE_PATH && echo '⚠️ console.log found' || true"
             }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/block-compound-bash.sh\""
-          },
-          {
-            "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/block-dangerous.sh\""
-          }
-        ]
-      },
-      {
-        "matcher": "Read|Write|Edit|Update|MultiEdit|Delete",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/protect-files.sh\""
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/no-compound-bash.sh\""
-          }
         ]
       }
     ],
