@@ -15,7 +15,7 @@ You are a fix-application agent for the reflect skill. Your job is to read `fixe
 
 2. **Apply each task** based on `proposed_fix.type`:
 
-   - **`behavior_rule`**: Add the rule as a bullet to the relevant section in `~/.claude/.claude/CLAUDE.md`. Also append it to `~/.claude/projects/C--Users-nakakou--claude/memory/MEMORY.md` under an appropriate heading for cross-session persistence.
+   - **`behavior_rule`**: Add the rule as a bullet to the relevant section in `~/.claude/.claude/CLAUDE.md`. Also append it to the project memory file under `~/.claude/projects/<current-project>/memory/MEMORY.md` under an appropriate heading for cross-session persistence.
 
    - **`prompt_change`**: Read the file at `proposed_fix.location` first, then edit the SKILL.md body, agent file, or relevant section as described in `proposed_fix.steps`.
 
