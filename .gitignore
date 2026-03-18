@@ -35,6 +35,7 @@ docs/*
 tmp/
 backups/
 cache/
+sessions/
 
 # Secrets
 .env
