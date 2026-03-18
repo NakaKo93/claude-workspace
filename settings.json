@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
     "deny": [
       "Bash(sudo:*)",
@@ -240,10 +241,6 @@
     "UserPromptSubmit": [
       {
         "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/force-skill-eval.sh\""
-          },
           {
             "type": "command",
             "command": "bash \"$HOME/.claude/hooks/no-compound-bash.sh\""

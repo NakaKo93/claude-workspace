@@ -71,7 +71,6 @@
 | フック | イベント | マッチャー | 概要 |
 |---|---|---|---|
 | [block-dangerous](hooks/block-dangerous.md) | PreToolUse | `Bash` | 危険なコマンドをブロック |
-| [force-skill-eval](hooks/force-skill-eval.md) | UserPromptSubmit | — | スキル確認を促すリマインダーを注入 |
 | [no-compound-bash](hooks/no-compound-bash.md) | UserPromptSubmit | — | Bash コマンド連結禁止ルールを注入 |
 | [play_sound](hooks/play_sound.md) | Notification / Stop | `permission_prompt` / — | 通知音を再生 |
 
