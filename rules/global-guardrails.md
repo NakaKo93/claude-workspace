@@ -62,3 +62,23 @@ Violating this rule breaks hook-based safety checks and will be caught immediate
 Avoid destructive changes unless explicitly requested.
 
 If uncertain, clearly state the uncertainty instead of inventing details.
+
+## File Modification Policy
+
+**NEVER modify, create, or delete any file** until ALL five items below are explicitly confirmed. No exceptions — not even for "simple" or "small" changes.
+
+### Mandatory Pre-Implementation Checklist
+
+Before touching any file, you **MUST** verify that the user has clearly stated all of the following. If even one item is missing or ambiguous, **stop immediately and ask**. Do not guess. Do not proceed.
+
+| # | Item | Description | Example |
+|---|------|-------------|---------|
+| 1 | **Background** | Why this change is needed. The premise and intent behind the request. | "Invalid emails are being saved at user registration" |
+| 2 | **Target** | Exactly where to make changes — specific files, functions, endpoints, or sections. | "`POST /users` validation logic" |
+| 3 | **Task** | What to do, concretely and specifically. | "Add email format validation" |
+| 4 | **Expected outcome** | What "done" looks like. The completion criteria. | "Invalid emails return HTTP 400" |
+| 5 | **Constraints** | Rules and policies that must be respected. | "Do not change existing response format" |
+
+**If any item above is unclear or missing: stop and ask the user immediately. Do not implement. Do not assume. Do not fill in the blanks yourself.**
+
+Reading and investigating files is always allowed without these checks.
