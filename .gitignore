@@ -41,6 +41,26 @@ sessions/
 .env
 .env.*
 
+# Credentials & daemon keys (never commit)
+.credentials.*
+daemon/
+daemon*
+
+# Background jobs (contain conversation content)
+jobs/
+
+# Auto-generated state & caches
+state/
+.last-*
+*-cache.json
+*-cache
+remote-settings.json
+policy-limits.json*
+
+# Skills managed outside this repo
+skills/synced/
+skills/.trash/
+
 # Misc
 bash.exe.stackdump
 
