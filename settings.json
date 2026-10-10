@@ -1,132 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
-    "deny": [
-      "Bash(sudo:*)",
-
-      "Read(.env)",
-      "Read(.env.*)",
-      "Write(.env*)",
-      "Edit(.env*)",
-      "MultiEdit(.env*)",
-      "Update(.env*)",
-
-      "Read(**/secrets/**)",
-      "Write(**/secrets/**)",
-      "Edit(**/secrets/**)",
-      "MultiEdit(**/secrets/**)",
-      "Update(**/secrets/**)",
-
-      "Read(**/*token*)",
-      "Write(**/*token*)",
-      "Edit(**/*token*)",
-      "MultiEdit(**/*token*)",
-      "Update(**/*token*)",
-      "Read(**/*secret*)",
-      "Write(**/*secret*)",
-      "Edit(**/*secret*)",
-      "MultiEdit(**/*secret*)",
-      "Update(**/*secret*)",
-      "Read(**/*apikey*)",
-      "Write(**/*apikey*)",
-      "Edit(**/*apikey*)",
-      "MultiEdit(**/*apikey*)",
-      "Update(**/*apikey*)",
-      "Read(**/*api_key*)",
-      "Write(**/*api_key*)",
-      "Edit(**/*api_key*)",
-      "MultiEdit(**/*api_key*)",
-      "Update(**/*api_key*)",
-
-      "Read(**/*.key)",
-      "Write(**/*.key)",
-      "Edit(**/*.key)",
-      "MultiEdit(**/*.key)",
-      "Update(**/*.key)",
-      "Read(**/*.pem)",
-      "Write(**/*.pem)",
-      "Edit(**/*.pem)",
-      "MultiEdit(**/*.pem)",
-      "Update(**/*.pem)",
-      "Read(**/*.p12)",
-      "Write(**/*.p12)",
-      "Edit(**/*.p12)",
-      "MultiEdit(**/*.p12)",
-      "Update(**/*.p12)",
-      "Read(**/*.pfx)",
-      "Write(**/*.pfx)",
-      "Edit(**/*.pfx)",
-      "MultiEdit(**/*.pfx)",
-      "Update(**/*.pfx)",
-      "Read(**/id_rsa)",
-      "Write(**/id_rsa)",
-      "Edit(**/id_rsa)",
-      "MultiEdit(**/id_rsa)",
-      "Update(**/id_rsa)",
-      "Read(**/id_ed25519)",
-      "Write(**/id_ed25519)",
-      "Edit(**/id_ed25519)",
-      "MultiEdit(**/id_ed25519)",
-      "Update(**/id_ed25519)",
-      "Read(**/id_ecdsa)",
-      "Write(**/id_ecdsa)",
-      "Edit(**/id_ecdsa)",
-      "MultiEdit(**/id_ecdsa)",
-      "Update(**/id_ecdsa)",
-      "Read(**/id_dsa)",
-      "Write(**/id_dsa)",
-      "Edit(**/id_dsa)",
-      "MultiEdit(**/id_dsa)",
-      "Update(**/id_dsa)",
-
-      "Read(**/.ssh/**)",
-      "Write(**/.ssh/**)",
-      "Edit(**/.ssh/**)",
-      "MultiEdit(**/.ssh/**)",
-      "Update(**/.ssh/**)",
-
-      "Read(**/*.jks)",
-      "Write(**/*.jks)",
-      "Edit(**/*.jks)",
-      "MultiEdit(**/*.jks)",
-      "Update(**/*.jks)",
-      "Read(**/*.keystore)",
-      "Write(**/*.keystore)",
-      "Edit(**/*.keystore)",
-      "MultiEdit(**/*.keystore)",
-      "Update(**/*.keystore)",
-
-      "Read(**/*service-account*)",
-      "Write(**/*service-account*)",
-      "Edit(**/*service-account*)",
-      "MultiEdit(**/*service-account*)",
-      "Update(**/*service-account*)",
-
-      "Bash(curl:*)",
-      "Bash(wget:*)",
-      "Bash(nc:*)",
-
-      "Bash(node:*)",
-      "Bash(npm:*)",
-      "Bash(yarn:*)",
-      "Bash(pnpm:*)",
-
-      "Bash(git push -f *)",
-      "Bash(git push --force*)",
-      "Bash(git push --force-with-lease*)",
-      "Bash(git push * main)",
-      "Bash(git push * master)"
-    ],
-    "ask": [
-      "Bash(rm:*)",
-      "Bash(rm -rf:*)",
-
-      "Bash(docker:*)",
-
-      "Bash(git rebase:*)",
-      "Bash(git reset:*)",
-      "Bash(git clean:*)"
-    ],
     "allow": [
       "Bash(ls:*)",
       "Bash(dir:*)",
@@ -139,10 +13,8 @@
       "Bash(mkdir:*)",
       "Bash(cp:*)",
       "Bash(mv:*)",
-
       "Bash(python:*)",
       "Bash(npx tsc:*)",
-
       "Bash(git --version:*)",
       "Bash(git init:*)",
       "Bash(git config:*)",
@@ -156,38 +28,96 @@
       "Bash(git checkout:*)",
       "Bash(git stash:*)",
       "Bash(git push:*)",
-
       "Skill(kn-clarification-rules)",
       "Skill(kn-implementation-conventions)",
-      "Skill(kn-response-conventions)"
-    ]
+      "Skill(kn-response-conventions)",
+      "mcp__pencil"
+    ],
+    "deny": [
+      "Bash(sudo:*)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Edit(**/.env*)",
+      "Read(**/secrets/**)",
+      "Edit(**/secrets/**)",
+      "Read(**/*token*.json)",
+      "Edit(**/*token*.json)",
+      "Read(**/*token*.txt)",
+      "Edit(**/*token*.txt)",
+      "Read(**/*token*.yaml)",
+      "Edit(**/*token*.yaml)",
+      "Read(**/*token*.yml)",
+      "Edit(**/*token*.yml)",
+      "Read(**/*secret*.json)",
+      "Edit(**/*secret*.json)",
+      "Read(**/*secret*.txt)",
+      "Edit(**/*secret*.txt)",
+      "Read(**/*secret*.yaml)",
+      "Edit(**/*secret*.yaml)",
+      "Read(**/*secret*.yml)",
+      "Edit(**/*secret*.yml)",
+      "Read(**/*apikey*)",
+      "Edit(**/*apikey*)",
+      "Read(**/*api_key*)",
+      "Edit(**/*api_key*)",
+      "Read(**/*.key)",
+      "Edit(**/*.key)",
+      "Read(**/*.pem)",
+      "Edit(**/*.pem)",
+      "Read(**/*.p12)",
+      "Edit(**/*.p12)",
+      "Read(**/*.pfx)",
+      "Edit(**/*.pfx)",
+      "Read(**/id_rsa)",
+      "Edit(**/id_rsa)",
+      "Read(**/id_ed25519)",
+      "Edit(**/id_ed25519)",
+      "Read(**/id_ecdsa)",
+      "Edit(**/id_ecdsa)",
+      "Read(**/id_dsa)",
+      "Edit(**/id_dsa)",
+      "Read(**/.ssh/**)",
+      "Edit(**/.ssh/**)",
+      "Read(**/*.jks)",
+      "Edit(**/*.jks)",
+      "Read(**/*.keystore)",
+      "Edit(**/*.keystore)",
+      "Read(**/*service-account*)",
+      "Edit(**/*service-account*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(nc:*)",
+      "Bash(git push -f *)",
+      "Bash(git push --force*)",
+      "Bash(git push --force-with-lease*)",
+      "Bash(git push * main)",
+      "Bash(git push * master)"
+    ],
+    "ask": [
+      "Bash(rm:*)",
+      "Bash(docker:*)",
+      "Bash(git rebase:*)",
+      "Bash(git reset:*)",
+      "Bash(git clean:*)"
+    ],
+    "defaultMode": "auto"
   },
+  "model": "opus[1m]",
+  "enableAllProjectMcpServers": false,
   "enabledMcpjsonServers": [],
-  "enableAllProjectMcpServers": true,
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline.sh",
-    "padding": 2
-  },
-  "sandbox": {
-    "enabled": true,
-    "autoAllowBashIfSandboxed": true,
-    "excludedCommands": ["git"],
-    "network": {"allowedDomains": ["github.com", "*.npmjs.org"]}
-  },
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Read|Write|Edit|Update|MultiEdit|Delete",
+        "matcher": "Write|Edit|MultiEdit",
         "hooks": [
-            {
-              "type": "command",
-              "command": "[ -f \"$CLAUDE_TOOL_INPUT_FILE_PATH\" ] && case \"$CLAUDE_TOOL_INPUT_FILE_PATH\" in *.js|*.ts|*.tsx|*.jsx|*.json|*.css|*.scss|*.html|*.md|*.yaml|*.yml) npx prettier --write \"$CLAUDE_TOOL_INPUT_FILE_PATH\" 2>/dev/null ;; esac; exit 0"
-            },
-            {
-              "type": "command",
-              "command": "grep -n 'console.log' $CLAUDE_FILE_PATH && echo '⚠️ console.log found' || true"
-            }
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/format_on_edit.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/check_console_log.sh"
+          }
         ]
       }
     ],
@@ -217,5 +147,32 @@
         ]
       }
     ]
-  }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh",
+    "padding": 2
+  },
+  "enabledPlugins": {},
+  "extraKnownMarketplaces": {},
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "network": {
+      "allowedDomains": [
+        "github.com",
+        "*.npmjs.org"
+      ]
+    },
+    "excludedCommands": [
+      "git"
+    ]
+  },
+  "effortLevel": "high",
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
+  "theme": "dark",
+  "skipAutoPermissionPrompt": true
 }
